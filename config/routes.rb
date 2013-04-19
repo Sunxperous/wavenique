@@ -1,5 +1,11 @@
 Vagrant::Application.routes.draw do
-  root to: '/'
+	resources :users
+
+  root to: 'home#index'
+
+	match 'callback', to: 'sessions#create'
+	match 'signout', to: 'sessions#destroy'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

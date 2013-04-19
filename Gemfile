@@ -14,6 +14,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'spork'
   gem 'guard-spork'
+	gem 'shoulda-matchers'
 end
 
 # Gems used only for assets and not required
@@ -30,7 +31,7 @@ end
 
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
-gem 'youtube_it'
+gem 'google-api-client'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

@@ -8,8 +8,10 @@
 </head>
 <body>
 
+	<%= render 'shared/nav' %>
 <%= yield %>
-<% debug params %>
+<%= debug params %>
+<%= debug session %>
 
 </body>
 </html>

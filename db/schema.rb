@@ -11,6 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 0) do
+ActiveRecord::Schema.define(:version => 20130419070728) do
+
+  create_table "users", :force => true do |t|
+    t.string "google_id"
+    t.string "google_name"
+    t.string "google_refresh_token"
+    t.string "remember_token"
+  end
+
+  add_index "users", ["remember_token"], :name => "index_users_on_remember_token"
 
 end
