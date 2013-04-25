@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
-  attr_accessible :google_id, :google_name, :google_refresh_token 
+  attr_accessible :google_id, :google_name
   before_save :create_remember_token
-  validates_presence_of :google_id, :google_name, :google_refresh_token
+  validates_presence_of :google_id, :google_name, :google_refresh_token, :google_access_token
   validates_uniqueness_of :google_id
 
   def playlists
@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
     )
   end
 
-  def self.google_signin(code)
+  def self.google_sign_in(code)
     client = GoogleAPI.client
     client.authorization.code = code
     client.authorization.fetch_access_token!
@@ -28,8 +28,13 @@ class User < ActiveRecord::Base
       paramters: { fields: 'id,name' }
     )
 
-    u = User.create(google_id: result.data.id, google_name: result.data.name, google_refresh_token: client.authorization.refresh_token) unless u = User.find_by_google_id(result.data.id)
-    u
+		u = User.new(google_id: result.data.id, google_name: result.data.name) unless u = User.find_by_google_id(result.data.id)
+		if u.new_record?
+			u.google_refresh_token = client.authorization.refresh_token
+		end
+		u.google_access_token = client.authorization.access_token
+    u.save
+		u
   end
   
   private

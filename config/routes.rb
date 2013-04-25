@@ -1,10 +1,14 @@
 Vagrant::Application.routes.draw do
 	resources :users
+	resources :titles, only: [:index]
+	resources :names, only: [:index]
 
   root to: 'home#index'
 
-	match 'callback', to: 'sessions#create'
-	match 'signout', to: 'sessions#destroy'
+	match '/callback', to: 'sessions#create'
+	match '/signout', to: 'sessions#destroy'
+	match '/youtube/:video_id', to: 'youtube#show'
+	match '/youtube/:video_id/add', to: 'youtube#create', as: :add_youtube
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

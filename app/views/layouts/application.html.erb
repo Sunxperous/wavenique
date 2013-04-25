@@ -10,8 +10,12 @@
 
 	<%= render 'shared/nav' %>
 <%= yield %>
-<%= debug params %>
-<%= debug session %>
+<% if Rails.env.development? %>
+	<%= yield :debug %>
+	<%= debug params %>
+	<%= debug session %>
+	<%= debug current_user %>
+<% end %>
 
 </body>
 </html>

@@ -1,0 +1,22 @@
+<div>
+	<%= render 'performances' %>
+</div>
+<% if !@data.items.empty? %>
+	<% if @data.items[0].status.embeddable %>
+		<!-- Partial: Video display. //-->
+		<%= raw iframe_embed(@data.items[0].id) %>
+		<% if @data.items[0].snippet.categoryId != '10' %>
+			<p>Video does not belong in the Music category.</p>
+		<% end %>
+		<!-- End partial: Video display. //-->
+
+		<%= render 'form' %>
+	<% else %>
+		<p>Video is not embeddable.</p>
+	<% end %>
+<% else %>
+	<p>Video id does not exist.</p>
+<% end %>
+<% content_for :debug do %>
+	<%= debug @data %>
+<% end %>

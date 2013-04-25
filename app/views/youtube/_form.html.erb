@@ -1,0 +1,40 @@
+<div id="error"></div>
+<div id="result"></div>
+<div id="success"></div>
+<%= form_tag add_youtube_path, method: :post, remote: true do |f| %> <!-- If existing record, use edit_path. //-->
+  <%= hidden_field_tag 'video_id', params[:video_id] %>
+
+	<% title_count = 0 %>
+	<% name_count = 0 %>
+  <% perf_count = 0 %>
+  <% @youtube.performances.each do |perf| %>
+		<!-- Performances //-->
+    <div id="perf[<%= perf_count += 1 %>]" class="performance">
+      <p>Performance <%= perf_count %> Titles:</p>
+			<% perf.compositions.each do |composition| %>
+				<!-- Compositions/Titles //-->
+        <% title_count += 1 %>
+        <div id="titles[<%= title_count %>]" class="title">
+          <%= text_field_tag "perf[#{perf_count}][titles[#{title_count}][t]]", composition.titles[0].title, class: 'title-autocomplete' %>
+          <%= check_box_tag "perf[#{perf_count}][titles[#{title_count}][c_id]]", composition.id, false, disabled: composition.id.blank?, checked: composition.id.present? %>
+        </div>
+			<% end %>
+      <button type="button" class="add-title">Add title</button>
+
+      <p>Performance <%= perf_count %> Artists:</p>
+			<% perf.artists.each do |artist| %>
+				<!-- Artists/Names //-->
+				<% name_count += 1 %>
+				<div id="names[<% name_count %>]" class="name">
+          <%= text_field_tag "perf[#{perf_count}][names[#{name_count}][n]]", artist.names[0].name, class: 'name-autocomplete' %>
+          <%= check_box_tag "perf[#{perf_count}][names[#{name_count}][a_id]]", artist.id, false, disabled: artist.id.blank?, checked: artist.id.present? %>
+        </div>
+			<% end %>
+      <button type="button" class="add-name">Add name</button>
+    </div>
+  <% end %>
+  <button type="button" class="add-performance">Add performance</button>
+
+  <%= submit_tag 'Add video' %>
+<% end %>
+

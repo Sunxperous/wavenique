@@ -15,6 +15,7 @@ group :development, :test do
   gem 'spork'
   gem 'guard-spork'
 	gem 'shoulda-matchers'
+  gem 'selenium-webdriver'
 end
 
 # Gems used only for assets and not required

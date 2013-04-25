@@ -11,11 +11,7 @@ class SessionsController < ApplicationController
     if signed_in?
       redirect_to current_user
     elsif params[:code]
-      @u = User.google_signin(params[:code])
-
-      session[:access_token] = GoogleAPI.client.authorization.access_token
-      #session[:expires_in] = client.authorization.expires_in
-      #session[:issued_at] = client.authorization.issued_at
+      @u = User.google_sign_in(params[:code])
 
       sign_in @u 
       redirect_to @u 

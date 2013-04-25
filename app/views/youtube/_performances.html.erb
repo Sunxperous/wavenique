@@ -1,0 +1,14 @@
+<% if !@performances.nil? %>
+	<% @performances.each do |perf| %>
+		<p>
+		<% perf.compositions.each do |composition| %>
+			<span><%= composition.titles.first.title %></span>
+		<% end %>
+		<span> by </span>
+		<% perf.artists.each do |artist| %>
+			<span><%= artist.names.first.name %></span>
+		<% end %>
+		</p>
+	<% end %>
+<% end %>
+		

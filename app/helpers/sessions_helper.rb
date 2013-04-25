@@ -24,4 +24,17 @@ module SessionsHelper
 		current_user = nil
 		cookies.delete(:remember_token)
 	end
+
+	def signed_in_user
+		unless signed_in?
+			redirect_to root_path
+		end
+	end
+
+	def google_api_tokens
+		if signed_in?
+			GoogleAPI.access_token = current_user.google_access_token
+			GoogleAPI.refresh_token = current_user.google_refresh_token
+		end
+	end
 end
