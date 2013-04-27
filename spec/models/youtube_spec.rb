@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Youtube do
 	it { should have_many(:performances) }
+	it { should validate_presence_of(:performances) }
 
 	it { should respond_to(:video_id) }
 	it { should validate_presence_of(:video_id) }

@@ -10,17 +10,6 @@ class Performance < ActiveRecord::Base
 			if properties['t'].present?
 				composition = Composition.existing_or_new_title(properties['c_id'], properties['t'])
 				compositions << composition unless composition.titles.empty?
-=begin
-				if Composition.exists?(properties['c_id']) # If 'c_id' is nil, returns false too?
-					compositions << Composition.find(properties['c_id'])
-				else
-					composition = compositions.build
-					new_title = composition.titles.build(title: properties['t'])
-					if !new_title.valid?
-						compositions.delete(composition)
-					end
-				end
-=end
 			end
 		end
 
