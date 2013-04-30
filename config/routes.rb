@@ -1,7 +1,7 @@
 Vagrant::Application.routes.draw do
 	resources :users
-	resources :titles, only: [:index]
-	resources :names, only: [:index]
+	resources :compositions, only: [:index]
+	resources :artists, only: [:index]
 
   root to: 'home#index'
 
@@ -9,6 +9,7 @@ Vagrant::Application.routes.draw do
 	match '/signout', to: 'sessions#destroy'
 	match '/youtube/:video_id', to: 'youtube#show'
 	match '/youtube/:video_id/add', to: 'youtube#create', as: :add_youtube
+	match '/youtube/:video_id/edit', to: 'youtube#update', as: :edit_youtube
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

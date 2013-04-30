@@ -1,23 +1,35 @@
 class Performance < ActiveRecord::Base
 	belongs_to :youtube
+	validates_presence_of :youtube
 	has_many :performance_compositions
 	has_many :compositions, through: :performance_compositions
+	validates_associated :compositions
 	has_many :performance_artists
 	has_many :artists, through: :performance_artists
+	validates_associated :artists
+	before_save :link
 
-	def define(titles, names)
-		titles.each do |key, properties|
+	def define(compositions_hash, artists_hash)
+		compositions_hash.each do |key, properties|
 			if properties['t'].present?
-				composition = Composition.existing_or_new_title(properties['c_id'], properties['t'])
-				compositions << composition unless composition.titles.empty?
+				compositions << Composition.where(id: properties['id']).first_or_initialize(title: properties['t'])
 			end
 		end
 
-		names.each do |key, properties|
+		artists_hash.each do |key, properties|
 			if properties['n'].present?
-				artist = Artist.existing_or_new_name(properties['a_id'], properties['n'])
-				artists << artist unless artist.names.empty?
+				artists << Artist.where(id: properties['id']).first_or_initialize(name: properties['n'])
 			end
 		end
+	end
+
+	def unlink
+		update_attribute(:unlinked, true)
+	end
+
+	private
+	def link
+		self.unlinked ||= false
+		true
 	end
 end

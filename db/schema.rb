@@ -11,26 +11,44 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130424022536) do
+ActiveRecord::Schema.define(:version => 20130430124249) do
 
   create_table "artists", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "name"
   end
+
+  add_index "artists", ["name"], :name => "index_artists_on_name"
+
+  create_table "audits", :force => true do |t|
+    t.integer  "auditable_id"
+    t.string   "auditable_type"
+    t.integer  "associated_id"
+    t.string   "associated_type"
+    t.integer  "user_id"
+    t.string   "user_type"
+    t.string   "username"
+    t.string   "action"
+    t.text     "audited_changes"
+    t.integer  "version",         :default => 0
+    t.string   "comment"
+    t.string   "remote_address"
+    t.datetime "created_at"
+  end
+
+  add_index "audits", ["associated_id", "associated_type"], :name => "associated_index"
+  add_index "audits", ["auditable_id", "auditable_type"], :name => "auditable_index"
+  add_index "audits", ["created_at"], :name => "index_audits_on_created_at"
+  add_index "audits", ["user_id", "user_type"], :name => "user_index"
 
   create_table "compositions", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "title"
   end
 
-  create_table "names", :force => true do |t|
-    t.integer  "artist_id"
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  add_index "names", ["name"], :name => "index_names_on_name"
+  add_index "compositions", ["title"], :name => "index_compositions_on_title"
 
   create_table "performance_artists", :force => true do |t|
     t.integer  "performance_id"
@@ -58,18 +76,10 @@ ActiveRecord::Schema.define(:version => 20130424022536) do
     t.integer  "youtube_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.boolean  "unlinked"
   end
 
   add_index "performances", ["youtube_id"], :name => "index_performances_on_youtube_id"
-
-  create_table "titles", :force => true do |t|
-    t.string   "title"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
-    t.integer  "composition_id"
-  end
-
-  add_index "titles", ["title"], :name => "index_titles_on_title"
 
   create_table "users", :force => true do |t|
     t.string "google_id"

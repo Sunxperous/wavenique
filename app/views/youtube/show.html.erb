@@ -9,7 +9,11 @@
 			<p>Video does not belong in the Music category.</p>
 		<% end %>
 		<!-- End partial: Video display. //-->
-
+		<%= render 'form_performance',
+			count: Hash.new(-1),
+			fieldset_class: 'hidden',
+			performance: single_performance_template
+		%>
 		<%= render 'form' %>
 	<% else %>
 		<p>Video is not embeddable.</p>

@@ -17,17 +17,23 @@ class YoutubeController < ApplicationController
 		else
 			@youtube = Youtube.new(video_id: params[:video_id])
 			p = @youtube.performances.build
-			c = p.compositions.build
-			c.titles.build
-			a = p.artists.build
-			a.names.build
+			p.compositions.build
+			p.artists.build
 		end
 	end
 
 	def create
 		@youtube = Youtube.new(video_id: params[:video_id])
-		@youtube.modify(params)
-		if @youtube.new_record?
+		if !@youtube.modify(params)
+			render 'errors'
+		else
+			render 'success'
+		end
+	end
+
+	def update
+		@youtube = Youtube.find_by_video_id(params[:video_id])
+		if !@youtube.modify(params)
 			render 'errors'
 		else
 			render 'success'

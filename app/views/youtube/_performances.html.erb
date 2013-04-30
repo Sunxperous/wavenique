@@ -2,11 +2,12 @@
 	<% @performances.each do |perf| %>
 		<p>
 		<% perf.compositions.each do |composition| %>
-			<span><%= composition.titles.first.title %></span>
+			<span><%= composition.title %></span>
 		<% end %>
-		<span> by </span>
+		</p>
+		<p>
 		<% perf.artists.each do |artist| %>
-			<span><%= artist.names.first.name %></span>
+			<span><%= artist.name %></span>
 		<% end %>
 		</p>
 	<% end %>

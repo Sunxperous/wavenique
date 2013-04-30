@@ -30,6 +30,10 @@ GEM
       multi_json (~> 1.0)
     addressable (2.3.3)
     arel (3.0.2)
+    audited (3.0.0)
+    audited-activerecord (3.0.0)
+      activerecord (~> 3.0)
+      audited (= 3.0.0)
     autoparse (0.3.3)
       addressable (>= 2.3.1)
       extlib (>= 0.9.15)
@@ -202,6 +206,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  audited-activerecord
   capybara
   coffee-rails (~> 3.2.1)
   factory_girl_rails

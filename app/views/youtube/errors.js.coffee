@@ -1,1 +1,1 @@
-$('#error').html('<%= j debug params %>')
+$('#error').html('<%= j debug @youtube.errors %>')
