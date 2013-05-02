@@ -1,5 +1,7 @@
 class Performance < ActiveRecord::Base
-	belongs_to :youtube
+	audited associated_with: :youtube
+	has_associated_audits
+	belongs_to :youtube, touch: true
 	validates_presence_of :youtube
 	has_many :performance_compositions
 	has_many :compositions, through: :performance_compositions
@@ -9,17 +11,25 @@ class Performance < ActiveRecord::Base
 	validates_associated :artists
 	before_save :link
 
-	def define(compositions_hash, artists_hash)
-		compositions_hash.each do |key, properties|
-			if properties['t'].present?
-				compositions << Composition.where(id: properties['id']).first_or_initialize(title: properties['t'])
-			end
+	def self.define_new(hash)
+		perf = Performance.new
+		hash['comp'].values.each do |properties|
+			perf.compositions << Composition.existing_or_new(properties['id'], properties['t'])
 		end
+		hash['artist'].values.each do |properties|
+			perf.artists << Artist.existing_or_new(properties['id'], properties['n'])
+		end
+		(perf.compositions.blank? and perf.artists.blank?) ? nil : perf				
+	end
 
-		artists_hash.each do |key, properties|
-			if properties['n'].present?
-				artists << Artist.where(id: properties['id']).first_or_initialize(name: properties['n'])
-			end
+	def redefine(hash)
+		compositions.delete_all
+		artists.delete_all
+		hash['comp'].values.each do |properties|
+			compositions << Composition.existing_or_new(properties['id'], properties['t'])
+		end
+		hash['artist'].values.each do |properties|
+			artists << Artist.existing_or_new(properties['id'], properties['n'])
 		end
 	end
 

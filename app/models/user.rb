@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+	audited
   attr_accessible :google_id, :google_name
   before_save :create_remember_token
   validates_presence_of :google_id, :google_name, :google_refresh_token, :google_access_token

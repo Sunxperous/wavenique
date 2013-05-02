@@ -24,5 +24,4 @@ module GoogleAPI
 	def self.refresh_token=(refresh_token)
 		self.client.authorization.refresh_token = refresh_token
 	end
-
 end

@@ -29,7 +29,7 @@ $ ->
 
   onPlayerReady = (event) ->
     event.target.playVideo()
-    #event.target.pauseVideo()
+    event.target.pauseVideo()
     
   switched = false
   onStateChange = (event) ->
@@ -84,15 +84,6 @@ $ ->
         checkbox = $(getMarkerField(event.target.id))
         checkbox.prop('checked', true).attr('disabled', false).val(ui.item.artist_id)
 
-  # Apply methods to respective text inputs.
-  apply_interactions = ->
-    $('input.comp-autocomplete').autocomplete(comp_autocomplete).keyup(null_autocomplete)
-    $('input.artist-autocomplete').autocomplete(artist_autocomplete).keyup(null_autocomplete)
-    $('button').unbind('click')
-    $('button.add-composition').click -> add_element($(this), $('.hidden').find('.comp-fields'))
-    $('button.add-artist').click -> add_element($(this), $('.hidden').find('.artist-fields'))
-    $('button.add-performance').click -> add_element($(this), $('.hidden'))
-
   # Replace children indexes.
   replace_indexes = (element, perfId, elementId) ->
     toReplace = $(element).html().replace(/((comp|artist)(_|\[))[0-9]+/g, "$1" + elementId)
@@ -113,6 +104,15 @@ $ ->
     caller.data('count', count) # Replace button count data.
     caller.before(cloned) # Insert cloned template.
     apply_interactions()
+
+  # Apply methods to respective text inputs.
+  apply_interactions = ->
+    $('input.comp-autocomplete').autocomplete(comp_autocomplete).keyup(null_autocomplete)
+    $('input.artist-autocomplete').autocomplete(artist_autocomplete).keyup(null_autocomplete)
+    $('button').unbind('click')
+    $('button.add-composition').click -> add_element($(this), $('.hidden').find('.comp-fields'))
+    $('button.add-artist').click -> add_element($(this), $('.hidden').find('.artist-fields'))
+    $('button.add-performance').click -> add_element($(this), $('.hidden'))
 
   # Initialization.
   apply_interactions()

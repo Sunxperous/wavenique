@@ -8,7 +8,10 @@ module YoutubeHelper
 		p = Performance.new
 		p.compositions.build
 		p.artists.build
-		p
+		render 'form_performance',
+			count: Hash.new(-1),
+			fieldset_class: 'hidden',
+			performance: p
 	end
 
 end

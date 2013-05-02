@@ -1,6 +1,7 @@
 class YoutubeController < ApplicationController
 	def show
 		client = GoogleAPI.client
+		# Use a begin..catch block for Google API client executions.
 		youtube_api = client.discovered_api('youtube', 'v3')
 		result = client.execute(
 			api_method: youtube_api.videos.list,
@@ -24,19 +25,11 @@ class YoutubeController < ApplicationController
 
 	def create
 		@youtube = Youtube.new(video_id: params[:video_id])
-		if !@youtube.modify(params)
-			render 'errors'
-		else
-			render 'success'
-		end
+		@youtube.modify(params) ? (render 'success') : (render 'errors')
 	end
 
 	def update
 		@youtube = Youtube.find_by_video_id(params[:video_id])
-		if !@youtube.modify(params)
-			render 'errors'
-		else
-			render 'success'
-		end
+		@youtube.modify(params) ? (render 'success') : (render 'errors')
 	end
 end
