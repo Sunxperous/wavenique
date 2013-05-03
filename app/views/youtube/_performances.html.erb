@@ -1,4 +1,8 @@
-<% if !@performances.nil? %>
+<% if @performances.nil? %>
+	<p>
+		<%= @info.snippet.title %>
+	</p>
+<% else %>
 	<% @performances.each do |perf| %>
 		<p>
 		<% perf.compositions.each do |composition| %>

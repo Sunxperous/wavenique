@@ -8,7 +8,7 @@ class Artist < ActiveRecord::Base
 	has_many :performances, through: :performance_artists
 
 	def self.existing_or_new(id, name)
-		name.present? ? self.where(id: id).first_or_initialize(name: name) : nil
+		name.present? ? self.where(id: id).first_or_initialize(name: name) : []
 	end
 
 end

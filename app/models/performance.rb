@@ -19,7 +19,7 @@ class Performance < ActiveRecord::Base
 		hash['artist'].values.each do |properties|
 			perf.artists << Artist.existing_or_new(properties['id'], properties['n'])
 		end
-		(perf.compositions.blank? and perf.artists.blank?) ? nil : perf				
+		(perf.compositions.blank? and perf.artists.blank?) ? [] : perf
 	end
 
 	def redefine(hash)
@@ -31,6 +31,7 @@ class Performance < ActiveRecord::Base
 		hash['artist'].values.each do |properties|
 			artists << Artist.existing_or_new(properties['id'], properties['n'])
 		end
+		unlink if (compositions.blank? and artists.blank?)
 	end
 
 	def unlink

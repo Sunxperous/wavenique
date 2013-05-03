@@ -9,13 +9,16 @@
 <body>
 
 	<%= render 'shared/nav' %>
-<%= yield %>
-<% if Rails.env.development? %>
-	<%= yield :debug %>
-	<%= debug params %>
-	<%= debug session %>
-	<%= debug current_user %>
-<% end %>
+	<div class="content">
+		<%= yield %>
+	</div>
+
+	<% if Rails.env.development? %>
+		<%= yield :debug %>
+		<%= debug params if false %>
+		<%= debug session if false %>
+		<%= debug current_user if false %>
+	<% end %>
 
 </body>
 </html>

@@ -1,16 +1,18 @@
-<div>
-	<%= render 'performances' %>
-</div>
-<% if !@data.items.empty? %>
-	<% if @data.items[0].status.embeddable %>
+<% if @info.present? %>
+	<% if @info.status.embeddable %>
 		<!-- Partial: Video display. //-->
-		<%= raw iframe_embed(@data.items[0].id) %>
-		<% if @data.items[0].snippet.categoryId != '10' %>
-			<p>Video does not belong in the Music category.</p>
-		<% end %>
+		<%= raw iframe_embed(@info.id) %>
+		<div>
+			<%= render 'performances' %>
+		</div>
 		<!-- End partial: Video display. //-->
 		<%= single_performance_template	%>
-		<%= render 'form' %>
+		<%=
+			link_to_if @youtube.new_record?, 'Add', new_youtube_path(@youtube), remote: true do
+				link_to 'Edit', edit_youtube_path(@youtube), remote: true
+			end
+		%>
+		<p><%= youtube_warnings %></p>
 	<% else %>
 		<p>Video is not embeddable.</p>
 	<% end %>
@@ -18,5 +20,5 @@
 	<p>Video id does not exist.</p>
 <% end %>
 <% content_for :debug do %>
-	<%= debug @data %>
+	<%= debug @info %>
 <% end %>

@@ -14,4 +14,8 @@ module YoutubeHelper
 			performance: p
 	end
 
+	def youtube_warnings
+		"Video does not belong in the Music category" if @info.snippet.categoryId != '10'
+	end
+
 end

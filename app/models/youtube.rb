@@ -8,6 +8,10 @@ class Youtube < ActiveRecord::Base
 	validates_presence_of :performances
 	validates_associated :performances
 
+	def to_param
+		video_id
+	end
+
 	def modify(p)
 		# Validate video_id is embeddable and in Music category. And exists.
 		if !new_record?

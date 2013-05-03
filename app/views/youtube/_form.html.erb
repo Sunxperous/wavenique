@@ -2,9 +2,9 @@
 <div id="result"></div>
 <div id="success"></div>
 <% if @youtube.new_record? %>
-	<%= form_tag add_youtube_path, method: :post, remote: true %>
+	<%= form_tag create_youtube_path(@youtube), method: :post, remote: true %>
 <% else %>
-	<%= form_tag edit_youtube_path, method: :put, remote: true %>
+	<%= form_tag youtube_path(@youtube), method: :put, remote: true %>
 		<%= hidden_field_tag 'timestamp', @youtube.associated_audits.last.created_at %>
 <% end %>
 		<% count = Hash.new 0 %>

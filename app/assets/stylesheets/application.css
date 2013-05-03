@@ -12,3 +12,31 @@
  *= require_tree .
  *= require jquery.ui.all
  */
+
+* {
+	color: white;
+	font-family: Arial;
+}
+
+body {
+	background-color: black;
+}
+
+.sidebar {
+	float: left;
+}
+
+.content {
+	float: left;
+	padding: 20px;
+}
+
+pre, code {
+	display: block;
+	clear: both;
+	font-family: monospace;
+}
+
+input, button {
+	color: black;
+}
