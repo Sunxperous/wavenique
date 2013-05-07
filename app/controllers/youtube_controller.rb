@@ -6,10 +6,18 @@ class YoutubeController < ApplicationController
 		p = @youtube.performances.build
 		p.compositions.build
 		p.artists.build
+		respond_to do |format|
+			format.html { redirect_to youtube_path(@youtube) }
+			format.js { render 'append_form' }
+		end
 	end
 
 	def edit
 		@youtube = Youtube.find_by_video_id(params[:id])
+		respond_to do |format|
+			format.html { redirect_to youtube_path(@youtube) }
+			format.js { render 'append_form' }
+		end
 	end
 
 	def show
@@ -23,17 +31,10 @@ class YoutubeController < ApplicationController
 				part: 'snippet,status',
 				fields: 'items(id,status(embeddable),snippet(title,categoryId,channelId,channelTitle))'
 			}
+			# Parameters to be different for cached video data.
 		)
 		@info = result.data.items[0]
-		if @youtube = Youtube.find_by_video_id(params[:id])
-			# Existing Wavenique data for video.
-			@performances = @youtube.performances
-		else
-			@youtube = Youtube.new(video_id: params[:id])
-			p = @youtube.performances.build
-			p.compositions.build
-			p.artists.build
-		end
+		@youtube = Youtube.find_by_video_id(params[:id]) || Youtube.new(video_id: params[:id])
 	end
 
 	def create

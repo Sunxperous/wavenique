@@ -18,4 +18,9 @@ module YoutubeHelper
 		"Video does not belong in the Music category" if @info.snippet.categoryId != '10'
 	end
 
+  def add_edit_link
+  	link_to_if @youtube.new_record?, 'Add', new_youtube_path(@youtube), remote: true do
+      link_to 'Edit', edit_youtube_path(@youtube), remote: true
+		end
+  end
 end

@@ -1,19 +1,17 @@
-<% if @performances.nil? %>
-	<p>
+<% if @youtube.performances.blank? %>
+	<p class="youtube-title">
 		<%= @info.snippet.title %>
 	</p>
 <% else %>
-	<% @performances.each do |perf| %>
-		<p>
-		<% perf.compositions.each do |composition| %>
-			<span><%= composition.title %></span>
-		<% end %>
+	<div class="performance">
+	<% @youtube.performances.each do |perf| %>
+		<p class="composition">
+		<%= perf.compositions.map { |c| c.title }.join(', ') %>
 		</p>
-		<p>
-		<% perf.artists.each do |artist| %>
-			<span><%= artist.name %></span>
-		<% end %>
+		<p class="artist">
+			<span class="conjunction">by</span>
+			<%= perf.artists.map { |a| a.name }.join(', ') %>
 		</p>
 	<% end %>
+	</div>
 <% end %>
-		

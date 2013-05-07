@@ -2,6 +2,8 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
+window.youtubeForm = {}
+
 #####
 # YouTube Player IFrame API.
 root = exports ? this
@@ -49,10 +51,13 @@ $ ->
 
   # When autocompleted inputs are overrode.
   null_autocomplete = (event) ->
-    checkbox = $(getMarkerField($(this).attr('id')))
+    # Ignore on the following keys...
     ignoreKeys = [13, 37, 38, 39, 40, 27, 9, 16, 17, 18, 19, 20, 33, 34, 35, 36, 45]
     return for key in ignoreKeys when event.which is key
-    checkbox.attr('disabled', true).prop('checked', false).val('')
+    # Else, null autocomplete.
+    $(this).removeClass('existing')
+    marker = $(getMarkerField($(this).attr('id')))
+    marker.val('')
 
   # Autocomplete block for Compositions.
   comp_autocomplete =
@@ -66,8 +71,9 @@ $ ->
     minLength: 2
     select: (event, ui) ->
       if ui.item
-        checkbox = $(getMarkerField(event.target.id))
-        checkbox.prop('checked', true).attr('disabled', false).val(ui.item.composition_id)
+        $(event.target).addClass('existing')
+        marker = $(getMarkerField(event.target.id))
+        marker.val(ui.item.composition_id)
 
   # Autocomplete block for Artists.
   artist_autocomplete =
@@ -81,8 +87,9 @@ $ ->
     minLength: 2
     select: (event, ui) ->
       if ui.item
-        checkbox = $(getMarkerField(event.target.id))
-        checkbox.prop('checked', true).attr('disabled', false).val(ui.item.artist_id)
+        $(event.target).addClass('existing')
+        marker = $(getMarkerField(event.target.id))
+        marker.val(ui.item.artist_id)
 
   # Replace children indexes.
   replace_indexes = (element, perfId, elementId) ->
@@ -91,7 +98,7 @@ $ ->
     element.html(toReplace)
 
   # Common add elements function.
-  add_element = (caller, source) ->
+  add_element = (caller, source, destination) ->
     cloned = $(source).first().clone() # Clones template fieldset.
     count = caller.data('count') + 1 # Readies count number to index new fields.
     if caller.data('perf-id') # If adding compositions or artists...
@@ -102,19 +109,20 @@ $ ->
       cloned.find('button').data('perf-id', count)
       cloned.removeClass('hidden')
     caller.data('count', count) # Replace button count data.
-    caller.before(cloned) # Insert cloned template.
-    apply_interactions()
+    destination.append(cloned) # Insert cloned template.
+    youtubeForm.apply_interactions()
 
   # Apply methods to respective text inputs.
-  apply_interactions = ->
+  window.youtubeForm.apply_interactions = ->
     $('input.comp-autocomplete').autocomplete(comp_autocomplete).keyup(null_autocomplete)
     $('input.artist-autocomplete').autocomplete(artist_autocomplete).keyup(null_autocomplete)
     $('button').unbind('click')
-    $('button.add-composition').click -> add_element($(this), $('.hidden').find('.comp-fields'))
-    $('button.add-artist').click -> add_element($(this), $('.hidden').find('.artist-fields'))
-    $('button.add-performance').click -> add_element($(this), $('.hidden'))
+    $('button.add-composition').click -> add_element($(this), $('.hidden').find('.comp-fields'), $(this).parent().siblings('.fields').first())
+    $('button.add-artist').click -> add_element($(this), $('.hidden').find('.artist-fields'), $(this).parent().siblings('.fields').first())
+    $('button.add-performance').click -> add_element($(this), $('.hidden'), $(this).siblings('div.performances').first())
+    $('.close').click ->
+      $('.open').toggle()
+      $('.form').empty()
 
   # Initialization.
-  apply_interactions()
-
- 
+  #apply_interactions()

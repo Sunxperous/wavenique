@@ -3,7 +3,7 @@ class Composition < ActiveRecord::Base
 
 	attr_accessible :title
 
-	validates :title, presence: true
+	validates :title, presence: true, length: { maximum: 100 }
 
 	has_many :performance_compositions
 	has_many :performances, through: :performance_compositions

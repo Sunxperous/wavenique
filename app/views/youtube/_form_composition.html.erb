@@ -1,12 +1,9 @@
 <div class="comp-fields">
   <%= text_field_tag "perf[#{ count['perf'] }][comp[#{ count['title'] += 1}][t]]",
     composition.title,
-    class: 'comp-autocomplete'
+    class: 'comp-autocomplete' + (composition.id.present? ? ' existing' : '')
   %>
-  <%= check_box_tag "perf[#{ count['perf'] }][comp[#{ count['title'] }][id]]",
-    composition.id,
-    false,
-    disabled: composition.id.blank?,
-    checked: composition.id.present?
+  <%= hidden_field_tag "perf[#{ count['perf'] }][comp[#{ count['title'] }][id]]",
+    composition.id
   %>
 </div>

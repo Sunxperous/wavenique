@@ -1,3 +1,5 @@
-$('form').hide();
+$('.form').empty();
+$('.open').html("<%= j add_edit_link %>").toggle();
+// Add edit button.
 $('#success').html('Successfully added/updated.');
-$('#result').html('<%= j debug params %>');
+$('#performance_info').empty().append("<%= j render 'performances' %>");

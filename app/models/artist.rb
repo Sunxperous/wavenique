@@ -2,7 +2,7 @@ class Artist < ActiveRecord::Base
 	audited
 	attr_accessible :name
 
-	validates :name, presence: true
+	validates :name, presence: true, length: { maximum: 100 }
 
 	has_many :performance_artists
 	has_many :performances, through: :performance_artists

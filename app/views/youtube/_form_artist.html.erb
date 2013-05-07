@@ -1,12 +1,9 @@
 <div class="artist-fields">
   <%= text_field_tag "perf[#{ count['perf'] }][artist[#{ count['name'] += 1}][n]]",
     artist.name,
-    class: 'artist-autocomplete'
+    class: 'artist-autocomplete' + (artist.id.present? ? ' existing' : '')
   %>
-  <%= check_box_tag "perf[#{ count['perf'] }][artist[#{ count['name'] }][id]]",
-    artist.id,
-    false,
-    disabled: artist.id.blank?,
-    checked: artist.id.present?
+  <%= hidden_field_tag "perf[#{ count['perf'] }][artist[#{ count['name'] }][id]]",
+    artist.id
   %>
 </div>
