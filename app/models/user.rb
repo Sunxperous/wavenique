@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
     )
 
 		u = User.new(google_id: result.data.id, google_name: result.data.name) unless u = User.find_by_google_id(result.data.id)
-		if u.new_record?
+		if u.google_refresh_token.present?
 			u.google_refresh_token = client.authorization.refresh_token
 		end
 		u.google_access_token = client.authorization.access_token

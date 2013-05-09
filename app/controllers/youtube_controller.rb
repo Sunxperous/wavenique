@@ -23,8 +23,9 @@ class YoutubeController < ApplicationController
 	def show
 		client = GoogleAPI.client
 		# Use a begin..catch block for Google API client executions.
+    # Especially for users who revoked access.
 		youtube_api = client.discovered_api('youtube', 'v3')
-		result = client.execute(
+		@result = client.execute(
 			api_method: youtube_api.videos.list,
 			parameters: {
 				id: params[:id],
@@ -33,7 +34,7 @@ class YoutubeController < ApplicationController
 			}
 			# Parameters to be different for cached video data.
 		)
-		@info = result.data.items[0]
+		@info = @result.data.items[0]
 		@youtube = Youtube.find_by_video_id(params[:id]) || Youtube.new(video_id: params[:id])
 	end
 
