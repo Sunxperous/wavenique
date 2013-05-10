@@ -23,8 +23,8 @@ class Performance < ActiveRecord::Base
 	end
 
 	def redefine(hash)
-		compositions.delete_all
-		artists.delete_all
+		compositions.clear
+		artists.clear
 		hash['comp'].values.each do |properties|
 			compositions << Composition.existing_or_new(properties['id'], properties['t'])
 		end

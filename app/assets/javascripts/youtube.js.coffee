@@ -74,6 +74,7 @@ $ ->
         $(event.target).addClass('existing')
         marker = $(getMarkerField(event.target.id))
         marker.val(ui.item.composition_id)
+    autoFocus: true
 
   # Autocomplete block for Artists.
   artist_autocomplete =
@@ -90,6 +91,7 @@ $ ->
         $(event.target).addClass('existing')
         marker = $(getMarkerField(event.target.id))
         marker.val(ui.item.artist_id)
+    autoFocus: true
 
   # Replace children indexes.
   replace_indexes = (element, perfId, elementId) ->

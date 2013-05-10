@@ -3,24 +3,24 @@
     <p class="performance-label">Performance</p>
     <div class="sub-fieldset">
       <div class="label">Titles</div>
-      <div class="button-wrap">
-        <button type="button" class="add-composition" data-perf-id="<%= count['perf'] %>" data-count="<%= performance.compositions.length %>">Add Title</button>
-      </div>
       <div class="fields">
       <% performance.compositions.each do |composition| %>
         <%= render 'form_composition', count: count, composition: composition %>
       <% end %>
       </div>
+      <div class="button-wrap">
+        <button type="button" class="add-composition" data-perf-id="<%= count['perf'] %>" data-count="<%= performance.compositions.length %>">Add Title</button>
+      </div>
     </div>
     <div class="sub-fieldset">
       <div class="label">Artists</div>
-      <div class="button-wrap">
-        <button type="button" class="add-artist" data-perf-id="<%= count['perf'] %>" data-count="<%= performance.artists.length %>">Add Artist</button>
-      </div>
       <div class="fields">
       <% performance.artists.each do |artist| %>
         <%= render 'form_artist', count: count, artist: artist %>
       <% end %>
+      </div>
+      <div class="button-wrap">
+        <button type="button" class="add-artist" data-perf-id="<%= count['perf'] %>" data-count="<%= performance.artists.length %>">Add Artist</button>
       </div>
     </div>
   </fieldset>
