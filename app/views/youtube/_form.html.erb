@@ -5,7 +5,7 @@
 	<%= form_tag create_youtube_path(@youtube), method: :post, remote: true %>
 <% else %>
 	<%= form_tag youtube_path(@youtube), method: :put, remote: true %>
-		<%= hidden_field_tag 'timestamp', @youtube.associated_audits.last.created_at %>
+		<%= hidden_field_tag 'timestamp', @youtube.updated_at %>
 <% end %>
 		<% count = Hash.new 0 %>
 		<% @youtube.performances.each do |performance| %>

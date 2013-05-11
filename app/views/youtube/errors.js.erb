@@ -1,0 +1,4 @@
+$('.warning-errors').html('<%= j @youtube.errors.full_messages.join %>');
+<% if !@youtube.new_record? %>
+  $('#performance_info').html("<%= j render 'performances' %>");
+<% end %>

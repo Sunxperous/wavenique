@@ -3,10 +3,12 @@ class Youtube < ActiveRecord::Base
 	has_associated_audits
 	attr_accessible :video_id
 	has_many :performances, inverse_of: :youtube, conditions: { unlinked: false }
+  has_one :channel, class_name: 'User', foreign_key: 'youtube_channel', primary_key: 'channel_id'
 
 	validates :video_id, length: { is: 11 }, presence: true, uniqueness: { case_sensitive: true }
-	validates_presence_of :performances
+	validates_presence_of :performances, :channel_id
 	validates_associated :performances
+  before_validation :youtube_particulars, on: :create
 
   attr_accessor :new_content
 
@@ -17,7 +19,9 @@ class Youtube < ActiveRecord::Base
 	def modify(p)
     # Cleanse performance hash.
     p[:perf].delete_if do |k, v|
-      v["comp"].values.map { |comp_v| comp_v["t"].blank? }.include?(true)
+      v["comp"].delete_if { |comp_k, comp_v| comp_v["t"].blank? }
+      v["artist"].delete_if { |artist_k, artist_v| artist_v["n"].blank? }
+      v["comp"].empty?
     end
 		# Validate video_id is embeddable and in Music category. And exists.
     transaction do
@@ -27,7 +31,7 @@ class Youtube < ActiveRecord::Base
           errors[:base] << "There are no changes."
           return false
         end
-        if p[:timestamp] == associated_audits.last.created_at.to_s
+        if p[:timestamp] == updated_at.to_s
           edit_performances(p[:perf])
           if performances.blank?
             raise ActiveRecord::Rollback
@@ -86,6 +90,20 @@ class Youtube < ActiveRecord::Base
 		end
     performances.each { |p| p.purge_new_duplicates }
 	end
+
+  def youtube_particulars 
+    client = GoogleAPI.client
+    youtube_api = client.discovered_api('youtube', 'v3')
+    result = client.execute(
+      api_method: youtube_api.videos.list,
+      parameters: {
+        id: video_id,
+        part: 'snippet',
+        fields: 'items(snippet(channelId))'
+      }
+    )
+    self.channel_id = result.data.items[0].snippet.channelId
+  end
 end
 
 

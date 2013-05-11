@@ -1,7 +1,11 @@
-<% if @youtube.performances.blank? %>
+<% if @youtube.performances.blank? or @youtube.new_record? %>
 	<p class="youtube-title">
-		<%= @info.snippet.title %>
-	</p>
+		<%= @info.snippet.title %>    
+  </p>
+  <p class="youtube-uploader">
+    <span class="conjunction">uploaded by</span>
+    <%= @info.snippet.channelTitle %>
+  </p>
 <% else %>
 	<div class="performance">
 	<% @youtube.performances.each do |perf| %>

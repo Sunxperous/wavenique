@@ -112,6 +112,7 @@ $ ->
       cloned.removeClass('hidden')
     caller.data('count', count) # Replace button count data.
     destination.append(cloned) # Insert cloned template.
+    cloned.find('input').first().focus()
     youtubeForm.apply_interactions()
 
   # Apply methods to respective text inputs.

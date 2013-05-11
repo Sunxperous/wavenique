@@ -26,14 +26,13 @@ fieldset.hidden {
   .artist {
     font-size: 1em;
     color: #ccc;
-
-    .conjunction {
-      font-size: 0.8em;
-    }
   }
 }
+.conjunction {
+  font-size: 0.8em;
+}
 
-div.options {
+div.options, div.warning-errors {
   background-color: #666;
   margin-top: 5px;
   padding: 10px;

@@ -1,9 +1,11 @@
 class User < ActiveRecord::Base
 	audited
-  attr_accessible :google_id, :google_name
+  attr_accessible :google_id, :google_name, :youtube_channel
   before_save :create_remember_token
   validates_presence_of :google_id, :google_name, :google_refresh_token, :google_access_token
   validates_uniqueness_of :google_id
+  after_create :youtube_particulars 
+  has_many :youtube_uploads, class_name: 'Youtube', foreign_key: 'channel_id', primary_key: 'youtube_channel'
 
   def playlists
     client = GoogleAPI.client
@@ -30,7 +32,7 @@ class User < ActiveRecord::Base
     )
 
 		u = User.new(google_id: result.data.id, google_name: result.data.name) unless u = User.find_by_google_id(result.data.id)
-		if u.google_refresh_token.present?
+		if client.authorization.refresh_token.present?
 			u.google_refresh_token = client.authorization.refresh_token
 		end
 		u.google_access_token = client.authorization.access_token
@@ -39,7 +41,25 @@ class User < ActiveRecord::Base
   end
   
   private
-    def create_remember_token
-      self.remember_token = SecureRandom.urlsafe_base64
+  def create_remember_token
+    self.remember_token = SecureRandom.urlsafe_base64
+  end
+
+  def youtube_particulars 
+    client = GoogleAPI.client
+    youtube_api = client.discovered_api('youtube', 'v3')
+    result = client.execute(
+      api_method: youtube_api.channels.list,
+      parameters: {
+        part: 'id',
+        mine: true,
+        fields: 'items(id)'
+      }
+    )
+    if result.data.items.empty?
+      update_attribute(:youtube_channel, "")
+    else
+      update_attribute(:youtube_channel, result.data.items[0].id)
     end
+  end
 end

@@ -30,7 +30,7 @@ class YoutubeController < ApplicationController
 			parameters: {
 				id: params[:id],
 				part: 'snippet,status',
-				fields: 'items(id,status(embeddable),snippet(title,categoryId,channelId,channelTitle))'
+				fields: 'items(id,status(embeddable,privacyStatus),snippet(title,categoryId,channelId,channelTitle))'
 			}
 			# Parameters to be different for cached video data.
 		)

@@ -1,9 +1,12 @@
 <% if @info.present? %>
-	<% if @info.status.embeddable %>
+	<% if @info.status.embeddable and @info.status.privacyStatus == 'public' %>
 		<!-- Partial: Video display. //-->
 		<%= raw iframe_embed(@info.id) %>
     <div id="performance_info">
       <%= render 'performances' %>
+    </div>
+    <div class="warning-errors">
+      <%= youtube_warnings %>
     </div>
 		<!-- End partial: Video display. //-->
 		<div class="options">
@@ -13,13 +16,12 @@
       <div class="form">
       </div>
 		</div>
-		<p><%= youtube_warnings %></p>
 	<% else %>
-		<p>Video is not embeddable.</p>
+		<p>Video is not public nor embeddable.</p>
 	<% end %>
 <% else %>
 	<p>Video id does not exist.</p>
 <% end %>
 <% content_for :debug do %>
-	<%= debug @result.data if false %>
+	<%= debug @result.data if 1 %>
 <% end %>
