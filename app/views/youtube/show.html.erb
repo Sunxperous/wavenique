@@ -1,17 +1,29 @@
-<% if @info.present? %>
-	<% if @info.status.embeddable and @info.status.privacyStatus == 'public' %>
-		<!-- Partial: Video display. //-->
-		<%= raw iframe_embed(@info.id) %>
-    <div id="performance_info">
-      <%= render 'performances' %>
-    </div>
-    <div class="warning-errors">
-      <%= youtube_warnings %>
-    </div>
-		<!-- End partial: Video display. //-->
+<section id="youtube">
+<% if @youtube.api_data.present? %>
+	<% if @youtube.api_data.status.embeddable and @youtube.api_data.status.privacyStatus == 'public' %>
+    <%# Partial: Video display. %>
+		<%= raw iframe_embed(@youtube.video_id) %>
+    <section class="primary-info">
+      <section id="performance_info">
+        <%= render 'performances',
+          performances: @youtube.performances,
+          youtube_snippet: @youtube.api_data.snippet
+        %>
+      </section>
+      <section id="youtube_info">
+        <span class="conjunction">uploaded by </span>
+        <span><%= @youtube.api_data.snippet.channelTitle %></span>
+      </section>
+    </section>
+    <section class="warning-errors">
+      <% @warnings.each do |w| %>
+        <span class="warning"><%= w %></span>
+      <% end %>
+    </section>
+    <%# End partial: Video display %>
 		<div class="options">
       <div class="open">
-			<%= add_edit_link %>
+			<%= add_edit_link_for @youtube %>
       </div>
       <div class="form">
       </div>
@@ -20,8 +32,10 @@
 		<p>Video is not public nor embeddable.</p>
 	<% end %>
 <% else %>
+  <%# Use controllers to render errors. %>
 	<p>Video id does not exist.</p>
 <% end %>
 <% content_for :debug do %>
-	<%= debug @result.data if 1 %>
+	<%= debug @result.data if false %>
 <% end %>
+</section>

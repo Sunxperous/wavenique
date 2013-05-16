@@ -1,21 +1,19 @@
-<% if @youtube.performances.blank? or @youtube.new_record? %>
+<%# Locals: performances, youtube_snippet %>
+<% if performances.blank? %>
 	<p class="youtube-title">
-		<%= @info.snippet.title %>    
-  </p>
-  <p class="youtube-uploader">
-    <span class="conjunction">uploaded by</span>
-    <%= @info.snippet.channelTitle %>
+		<%= youtube_snippet.title %>    
   </p>
 <% else %>
-	<div class="performance">
+  <% @youtube.reload %>
+	<section class="performance">
 	<% @youtube.performances.each do |perf| %>
 		<p class="composition">
-		<%= perf.compositions.map { |c| c.title }.join(', ') %>
+    <span><%= perf.compositions.map { |c| c.title }.join(', ') %></span>
 		</p>
 		<p class="artist">
 			<span class="conjunction">by</span>
-			<%= perf.artists.map { |a| a.name }.join(', ') %>
+      <span><%= perf.artists.map { |a| a.name }.join(', ') %></span>
 		</p>
 	<% end %>
-	</div>
+	</section>
 <% end %>

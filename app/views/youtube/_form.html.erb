@@ -15,6 +15,6 @@
 				performance: performance %>
 		<% end %>
 		<button type="button" class="add-performance" data-count="<%= @youtube.performances.length %>">Add performance</button>
-		<%= submit_tag 'Add video' %>
+    <%= submit_tag 'Submit', disable_with: 'Submitting...' %>
     <button type="button" class="close">x</button>
 	</form>

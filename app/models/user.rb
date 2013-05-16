@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   has_many :youtube_uploads, class_name: 'Youtube', foreign_key: 'channel_id', primary_key: 'youtube_channel'
 
   def playlists
-    client = GoogleAPI.client
+    client = GoogleAPI.new_client(authorization: true, user: self)
     youtube_api = client.discovered_api('youtube', 'v3')
     result = client.execute(
       api_method: youtube_api.playlists.list,
@@ -21,16 +21,14 @@ class User < ActiveRecord::Base
   end
 
   def self.google_sign_in(code)
-    client = GoogleAPI.client
+    client = GoogleAPI.new_client(authorization: true)
     client.authorization.code = code
     client.authorization.fetch_access_token!
-
     oauth_api = client.discovered_api('oauth2')
     result = client.execute(
       api_method: oauth_api.userinfo.v2.me.get,
       paramters: { fields: 'id,name' }
     )
-
 		u = User.new(google_id: result.data.id, google_name: result.data.name) unless u = User.find_by_google_id(result.data.id)
 		if client.authorization.refresh_token.present?
 			u.google_refresh_token = client.authorization.refresh_token
@@ -46,7 +44,7 @@ class User < ActiveRecord::Base
   end
 
   def youtube_particulars 
-    client = GoogleAPI.client
+    client = GoogleAPI.new_client(authorization: true, user: self)
     youtube_api = client.discovered_api('youtube', 'v3')
     result = client.execute(
       api_method: youtube_api.channels.list,

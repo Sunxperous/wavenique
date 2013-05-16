@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Vagrant</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-	<%= render 'shared/nav' %>
-	<div class="content">
-		<%= yield %>
-	</div>
-
-	<% if Rails.env.development? %>
-		<%= yield :debug %>
-		<%= debug params if false %>
-		<%= debug session if false %>
-		<%= debug current_user if false %>
-	<% end %>
-
-</body>
+  <head>
+    <title>Wavenique</title> <%# To: Style title text. %>
+    <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <%= render 'shared/nav' %>
+    <main>
+      <%= yield %>
+    </main>
+    <aside id="debug">
+      <% if Rails.env.development? %>
+        <%= yield :debug %>
+        <%= debug params if false %>
+        <%= debug session if false %>
+        <%= debug current_user if false %>
+      <% end %>
+    </aside>
+  </body>
 </html>

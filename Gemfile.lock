@@ -163,17 +163,11 @@ GEM
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
       rspec-mocks (~> 2.13.0)
-    rubyzip (0.9.9)
     sass (3.2.7)
     sass-rails (3.2.6)
       railties (~> 3.2.0)
       sass (>= 3.1.10)
       tilt (~> 1.3)
-    selenium-webdriver (2.32.1)
-      childprocess (>= 0.2.5)
-      multi_json (~> 1.0)
-      rubyzip
-      websocket (~> 1.0.4)
     shoulda-matchers (2.0.0)
       activesupport (>= 3.0.0)
     signet (0.4.5)
@@ -198,7 +192,6 @@ GEM
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
     uuidtools (2.1.3)
-    websocket (1.0.7)
     xpath (2.0.0)
       nokogiri (~> 1.3)
 
@@ -217,9 +210,9 @@ DEPENDENCIES
   jquery-ui-rails
   pg
   rails (= 3.2.13)
+  rspec-mocks
   rspec-rails
   sass-rails (~> 3.2.3)
-  selenium-webdriver
   shoulda-matchers
   spork
   uglifier (>= 1.0.3)

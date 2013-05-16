@@ -1,7 +1,7 @@
 module YoutubeHelper
 	def iframe_embed(video_id)
-		src = "http://www.youtube.com/embed/#{video_id}?enablejsapi=1&origin=http://localhost:3000"
-		iframe_tag = "<iframe id=\"player\" type=\"text/html\" width=\"640\" height=\"390\" src=\"#{src}\" frameborder=\"0\"></iframe>"
+    src = "http://www.youtube.com/embed/#{video_id}?&origin=http://localhost:3000"
+    iframe_tag = '<iframe id="player" type="text/html" width="640" height="390" src="' + src + '" frameborder="0"></iframe>'
 	end
 
 	def single_performance_template
@@ -14,13 +14,9 @@ module YoutubeHelper
 			performance: p
 	end
 
-	def youtube_warnings
-		"Video does not belong in the Music category" if @info.snippet.categoryId != '10'
-	end
-
-  def add_edit_link
-  	link_to_if @youtube.new_record?, 'Add', new_youtube_path(@youtube), remote: true do
-      link_to 'Edit', edit_youtube_path(@youtube), remote: true
+  def add_edit_link_for(youtube)
+  	link_to_if youtube.new_record?, 'Add', new_youtube_path(youtube), remote: true do
+      link_to 'Edit', edit_youtube_path(youtube), remote: true
 		end
   end
 end

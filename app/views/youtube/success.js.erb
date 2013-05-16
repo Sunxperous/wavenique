@@ -1,5 +1,5 @@
 $('.form').empty();
-$('.open').html("<%= j add_edit_link %>").toggle();
+$('.open').html("<%= j add_edit_link_for @youtube %>").toggle();
 // Add edit button.
 $('#performance_info').html("<%= j render 'performances' %>");
 $('.warning-errors').html("Successfully updated.");

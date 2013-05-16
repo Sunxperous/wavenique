@@ -1,23 +1,22 @@
 class Youtube < ActiveRecord::Base
 	audited
 	has_associated_audits
-	attr_accessible :video_id
+  default_scope includes(:performances => [:artists, :compositions])
 	has_many :performances, inverse_of: :youtube, conditions: { unlinked: false }
   has_one :channel, class_name: 'User', foreign_key: 'youtube_channel', primary_key: 'channel_id'
-
+	attr_accessible :video_id
+  attr_accessor :new_content, :api_data
+  before_validation :fill_youtube_particulars, unless: Proc.new { |p| channel_id.present? }
 	validates :video_id, length: { is: 11 }, presence: true, uniqueness: { case_sensitive: true }
 	validates_presence_of :performances, :channel_id
 	validates_associated :performances
-  before_validation :youtube_particulars, on: :create
-
-  attr_accessor :new_content
 
 	def to_param
 		video_id
 	end
 
 	def modify(p)
-    # Cleanse performance hash.
+    # Cleanse performance hash of empty values.
     p[:perf].delete_if do |k, v|
       v["comp"].delete_if { |comp_k, comp_v| comp_v["t"].blank? }
       v["artist"].delete_if { |artist_k, artist_v| artist_v["n"].blank? }
@@ -75,11 +74,13 @@ class Youtube < ActiveRecord::Base
 
 	def edit_performances(performances_hash)
 		current_performances = performances.all
-		if current_performances.length >= performances_hash.length # If there are more or equal existing performances...
+		if current_performances.length >= performances_hash.length
+      # If there are more or equal existing performances...
 			current_performances.zip(performances_hash.values) do |current, new|
 				new.present? ? current.redefine(new) : current.unlink
 			end
-		else # There are less existing performances...
+		else
+      # There are less existing performances...
 			performances_hash.values.zip(current_performances) do |new, current|
 				if current.present?
 					current.redefine(new)
@@ -91,8 +92,8 @@ class Youtube < ActiveRecord::Base
     performances.each { |p| p.purge_new_duplicates }
 	end
 
-  def youtube_particulars 
-    client = GoogleAPI.client
+  def fill_youtube_particulars 
+    client = GoogleAPI.new_client
     youtube_api = client.discovered_api('youtube', 'v3')
     result = client.execute(
       api_method: youtube_api.videos.list,

@@ -11,50 +11,43 @@
  *= require reset
  *= require_self
  *= require_tree .
- *= require jquery.ui.all
  */
 
 * {
 	color: white;
 }
-
 body {
 	background-color: #1f1f1f;
 	font-family: "Trebuchet MS";
   font-size: 14px;
 }
-
 a {
   color: #69c;
   text-decoration: none;
 }
-
-.sidebar {
-  padding: 20px;
+header {
+  margin: 20px 10px 5px 10px;
 	float: left;
-  #logo {
-    color: #69c;
-    padding: 10px;
-    background-color: #ccc;
-    font-size: 2em;
-  }
-  #links {
-    padding-top: 5px;
+  nav {
+    margin-top: 5px;
   }
 }
-
-.content {
+#logo {
+  color: #69c;
+  padding: 10px;
+  background-color: #ccc;
+  font-size: 2em;
+}
+main {
 	float: left;
-	padding: 20px;
+	margin: 20px 10px;
   width: 640px;
 }
-
-pre, code {
+aside, pre, code {
 	display: block;
 	clear: both;
 	font-family: monospace;
 }
-
 input, button {
 	color: black;
 }
