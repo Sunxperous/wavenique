@@ -2,14 +2,16 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+@import "base";
+
 fieldset.hidden {
   visibility: hidden;
   display: none;
 }
 
-.primary-info {
+.info-container {
   margin-top: 5px;
-  background-color: #444444;
+  background-color: $foreground;
   padding: 10px;
 }
 .composition {

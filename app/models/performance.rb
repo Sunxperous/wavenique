@@ -12,26 +12,27 @@ class Performance < ActiveRecord::Base
 	validates_associated :artists
 	before_save :link
 
-	def self.define_new(hash)
+  def define(incoming, new_content)
+		incoming['comp'].values.each do |properties|
+			compositions << Composition.existing_or_new(
+        properties['id'], properties['t'], new_content)
+		end
+		incoming['artist'].values.each do |properties|
+			artists << Artist.existing_or_new(
+        properties['id'], properties['n'], new_content)
+		end
+  end
+
+	def self.define_new(incoming, new_content)
 		perf = Performance.new
-		hash['comp'].values.each do |properties|
-			perf.compositions << Composition.existing_or_new(properties['id'], properties['t'])
-		end
-		hash['artist'].values.each do |properties|
-			perf.artists << Artist.existing_or_new(properties['id'], properties['n'])
-		end
+    perf.define(incoming, new_content)
 		(perf.compositions.blank? and perf.artists.blank?) ? [] : perf
 	end
 
-	def redefine(hash)
+	def redefine(incoming, new_content)
 		compositions.clear
 		artists.clear
-		hash['comp'].values.each do |properties|
-			compositions << Composition.existing_or_new(properties['id'], properties['t'])
-		end
-		hash['artist'].values.each do |properties|
-			artists << Artist.existing_or_new(properties['id'], properties['n'])
-		end
+    define(incoming, new_content)
 		unlink if (compositions.blank? and artists.blank?)
 	end
 

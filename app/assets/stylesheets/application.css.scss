@@ -13,16 +13,18 @@
  *= require_tree .
  */
 
+@import "base";
+
 * {
-	color: white;
+	color: $primary;
 }
 body {
-	background-color: #1f1f1f;
+	background-color: $background;
 	font-family: "Trebuchet MS";
   font-size: 14px;
 }
 a {
-  color: #69c;
+  color: $link-active;
   text-decoration: none;
 }
 header {
@@ -33,9 +35,9 @@ header {
   }
 }
 #logo {
-  color: #69c;
+  color: $highlight;
   padding: 10px;
-  background-color: #ccc;
+  background-color: $foreground;
   font-size: 2em;
 }
 main {

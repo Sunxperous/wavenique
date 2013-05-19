@@ -124,8 +124,7 @@ $ ->
     $('button.add-artist').click -> add_element($(this), $('.hidden').find('.artist-fields'), $(this).parent().siblings('.fields').first())
     $('button.add-performance').click -> add_element($(this), $('.hidden'), $(this).siblings('div.performances').first())
     $('.close').click ->
-      $('.open').toggle()
-      $('.form').empty()
+      $('#form_container').empty()
 
   # Initialization.
   #apply_interactions()

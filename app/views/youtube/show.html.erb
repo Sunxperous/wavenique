@@ -1,41 +1,45 @@
 <section id="youtube">
-<% if @youtube.api_data.present? %>
-	<% if @youtube.api_data.status.embeddable and @youtube.api_data.status.privacyStatus == 'public' %>
-    <%# Partial: Video display. %>
-		<%= raw iframe_embed(@youtube.video_id) %>
-    <section class="primary-info">
-      <section id="performance_info">
-        <%= render 'performances',
-          performances: @youtube.performances,
-          youtube_snippet: @youtube.api_data.snippet
-        %>
+  <% if @youtube.api_data.present? %>
+    <% if @youtube.api_data.status.embeddable and
+    @youtube.api_data.status.privacyStatus == 'public' %>
+      <%# Partial: Video display. %>
+      <section id="primary_video">
+      <%= raw iframe_embed(@youtube.video_id) %>
       </section>
-      <section id="youtube_info">
-        <span class="conjunction">uploaded by </span>
-        <span><%= @youtube.api_data.snippet.channelTitle %></span>
+      <section id="primary_info" class="info-container">
+        <section id="performance_info">
+          <%= render 'performances',
+            performances: @youtube.performances,
+            youtube_snippet: @youtube.api_data.snippet
+          %>
+        </section>
+        <section id="youtube_info">
+          <span class="conjunction">uploaded by </span>
+          <span><%= @youtube.api_data.snippet.channelTitle %></span>
+        </section>
       </section>
-    </section>
-    <section class="warning-errors">
-      <% @warnings.each do |w| %>
-        <span class="warning"><%= w %></span>
-      <% end %>
-    </section>
-    <%# End partial: Video display %>
-		<div class="options">
-      <div class="open">
-			<%= add_edit_link_for @youtube %>
+      <%# End partial: Video display %>
+      <ul id="options" class="info-container">
+        <li id="form_toggle">
+          <%= add_edit_link_for @youtube %>
+        </li>
+      </ul>
+      <div id="form_container" class="info-container">
+        <%# Make warning-errors partial, which render on form submission. %>
+        <section id="warning_errors">
+          <% @warnings.each do |w| %>
+            <span class="warning"><%= w %></span>
+          <% end %>
+        </section>
       </div>
-      <div class="form">
-      </div>
-		</div>
-	<% else %>
-		<p>Video is not public nor embeddable.</p>
-	<% end %>
-<% else %>
-  <%# Use controllers to render errors. %>
-	<p>Video id does not exist.</p>
-<% end %>
-<% content_for :debug do %>
-	<%= debug @result.data if false %>
-<% end %>
+    <% else %>
+      <p>Video is not public nor embeddable.</p>
+    <% end %>
+  <% else %>
+    <%# Use controllers to render errors. %>
+    <p>Video id does not exist.</p>
+  <% end %>
+  <% content_for :debug do %>
+    <%= debug @result.data if false %>
+  <% end %>
 </section>
