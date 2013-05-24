@@ -1,6 +1,4 @@
 class Performance < ActiveRecord::Base
-	audited associated_with: :youtube
-	has_associated_audits
 	belongs_to :youtube, touch: true, inverse_of: :performances
 	validates_presence_of :youtube
 	has_many :performance_compositions
@@ -10,7 +8,6 @@ class Performance < ActiveRecord::Base
 	has_many :performance_artists
 	has_many :artists, through: :performance_artists
 	validates_associated :artists
-	before_save :link
 
   def define(incoming, new_content)
 		incoming['comp'].values.each do |properties|
@@ -33,16 +30,7 @@ class Performance < ActiveRecord::Base
 		compositions.clear
 		artists.clear
     define(incoming, new_content)
-		unlink if (compositions.blank? and artists.blank?)
-	end
-
-	def unlink
-		update_attribute(:unlinked, true)
 	end
 
 	private
-	def link
-		self.unlinked ||= false
-		true
-	end
 end

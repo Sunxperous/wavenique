@@ -16,6 +16,7 @@ group :development, :test do
   gem 'guard-spork'
 	gem 'shoulda-matchers'
   gem 'rspec-mocks'
+  gem 'database_cleaner'
 end
 
 # Gems used only for assets and not required

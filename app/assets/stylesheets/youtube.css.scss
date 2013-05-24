@@ -4,15 +4,18 @@
 
 @import "base";
 
-fieldset.hidden {
-  visibility: hidden;
-  display: none;
-}
+$button-height: 18px;
 
 .info-container {
   margin-top: 5px;
   background-color: $foreground;
   padding: 10px;
+}
+// #youtube-info
+.performance {
+  margin-bottom: 10px;
+}
+.compositions, .artists {
 }
 .composition {
   font-size: 1.2em;
@@ -20,80 +23,79 @@ fieldset.hidden {
 }
 .artist {
   font-size: 1em;
+  line-height: 1.1em;
   color: #ccc;
 }
-.conjunction {
+.conjunction, .uploader {
   font-size: 0.8em;
+  line-height: 1em;
 }
-
-div.options, div.warning-errors {
-  background-color: #666;
-  margin-top: 5px;
-  padding: 10px;
+// form
+.error {
+  color: $error;
 }
-
-form {
-  p, div {
-    text-transform: uppercase;
-    font-size: 11px;
-  }
-  p.performance-label {
-    line-height: 2em;
-  }
-  div.sub-fieldset {
-    margin-bottom: 5px;
-    position: relative;
-    z-index: 0;
-  }
-  input[type="text"] {
-    margin: 1px;
-    padding-left: 3px;
-    padding-right: 3px;
-    background-color: #aaa;
-    border: 2px solid transparent;
-    width: 200px;
-    height: 1.5em;
-  }
-  input.existing {
-    border: 2px solid #696;
-  }
-  button, input[type="submit"] {
-    margin: 0px;
-    height: 1.5em;
-    text-transform: uppercase;
-    font-size: 11px;
-    background: rgb(40, 40, 40);
-    background: rgba(40, 40, 40, 0.4);
-    color: #ccc;
-    border: 0px;
-    border-left: 2px solid #ccc;
-  }
+.warning {
+  color: $warning;
+}
+fieldset.hidden {
+  visibility: hidden;
+  display: none;
+}
+.label {
+  text-transform: uppercase;
+  font-size: 11px;
+  color: $form-label;
+}
+p.performance-label {
+  @extend .label;
+  line-height: 2em;
+}
+div.sub-fieldset {
+  margin-bottom: 5px;
+  position: relative;
 }
 div.label {
   width: 100px;
   display: inline-block;
-  z-index: -1;
-  border-right: 3px solid #777;
+  //border-right: 3px solid $form-highlight;
   line-height: 1.5em;
 }
+input[type="text"] {
+  margin: 1px;
+  padding: 0px 3px;
+  background-color: $form-text-background;
+  border: 2px solid $form-text-background;
+  width: 200px;
+  height: 1.5em;
+}
 div.button-wrap {
-  margin-top: -20px;
+  margin-top: -$button-height;
   width: 100px;
   text-align: right;
-  z-index: 2;
+  border-right: 3px solid $form-highlight;
   button {
-    z-index: 2;
-    height: 20px;
+    vertical-align: bottom;
   }
+}
+button, input[type="submit"] {
+  height: $button-height;
+  margin: 0px;
+  text-transform: uppercase;
+  font-size: 10px;
+  background: $form-button-background; 
+  color: $form-button-text;
+  border: 0px;
 }
 div.fields {
   display: inline-block;
   vertical-align: top;
   min-height: 35px;
-  margin-left: 1px;
+  margin-left: 2px;
   padding-left: 5px;
-  border-left: 2px solid #999;
-  outline: none;
+  border-left: 3px solid $form-highlight;
+}
+input.existing {
+  border: 2px solid $form-green-highlight;
 }
 
 // jQuery UI Autocomplete

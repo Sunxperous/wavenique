@@ -1,5 +1,3 @@
-<div id="error"></div>
-<div id="success"></div>
 <%= single_performance_template	%>
 <% if @youtube.new_record? %>
 	<%= form_tag create_youtube_path(@youtube), method: :post, remote: true %>
@@ -16,5 +14,5 @@
 		<% end %>
 		<button type="button" class="add-performance" data-count="<%= @youtube.performances.length %>">Add performance</button>
     <%= submit_tag 'Submit', disable_with: 'Submitting...' %>
-    <button type="button" class="close">x</button>
+    <button type="button" id="close">Cancel</button>
 	</form>

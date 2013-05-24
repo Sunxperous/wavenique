@@ -1,6 +1,17 @@
-$background: #5f5f5f;
-$foreground: #222;
+$background: #666;
+$foreground: #333;
+$family: "Tahoma";
 
 $primary: #ddd;
-$highlight: #69c;
-$link-active: #69c;
+$highlight: #9cf;
+$warning: #993;
+$error: #933;
+$link-active: #7ad;
+
+$form-text-background: #aaa;
+$form-text: #333;
+$form-label: $primary;
+$form-highlight: $background;
+$form-green-highlight: #696;
+$form-button-text: desaturate($link-active, 30%);
+$form-button-background: #1f1f1f;

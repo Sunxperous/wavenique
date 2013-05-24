@@ -20,7 +20,7 @@
 }
 body {
 	background-color: $background;
-	font-family: "Trebuchet MS";
+	font-family: $family; 
   font-size: 14px;
 }
 a {
@@ -31,7 +31,13 @@ header {
   margin: 20px 10px 5px 10px;
 	float: left;
   nav {
+    background-color: $foreground;
     margin-top: 5px;
+    padding: 5px 10px;
+    a {
+      line-height: 1.3em;
+      display: block;
+    }
   }
 }
 #logo {

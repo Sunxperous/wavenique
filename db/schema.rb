@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130511124947) do
+ActiveRecord::Schema.define(:version => 20130522101330) do
 
   create_table "artists", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -76,7 +76,6 @@ ActiveRecord::Schema.define(:version => 20130511124947) do
     t.integer  "youtube_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.boolean  "unlinked"
   end
 
   add_index "performances", ["youtube_id"], :name => "index_performances_on_youtube_id"

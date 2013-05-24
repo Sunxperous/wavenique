@@ -4,16 +4,20 @@
 		<%= youtube_snippet.title %>    
   </p>
 <% else %>
-  <% @youtube.reload %>
-	<section class="performance">
+  <ol id="performances">
 	<% @youtube.performances.each do |perf| %>
-		<p class="composition">
-    <span><%= perf.compositions.map { |c| c.title }.join(', ') %></span>
-		</p>
-		<p class="artist">
-			<span class="conjunction">by</span>
-      <span><%= perf.artists.map { |a| a.name }.join(', ') %></span>
-		</p>
+    <li class="performance">
+      <ol class="compositions">
+      <% perf.compositions.each do |c| %>
+        <li class="composition"><%= c.title %></li>
+      <% end %>
+      </ol>
+      <ol class="artists">
+        <% perf.artists.each do |a| %>
+          <li class="artist"><%= a.name %></li>
+        <% end %>
+      </ol>
+    </li>
 	<% end %>
-	</section>
+	</ol>
 <% end %>

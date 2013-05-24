@@ -4,15 +4,15 @@ Vagrant::Application.routes.draw do
 	resources :artists, only: [:index]
 	resources :youtube, controller: :youtube, except: [:create, :new] do
 		member do
-			match 'create', as: :create, via: :post, action: :create
+			match '/create', as: :create, via: :post, action: :create
 			match '/new', as: :new, via: :get, action: :new
 		end
 	end
 
   root to: 'home#index'
 
-	match '/callback', to: 'sessions#create'
-	match '/signout', to: 'sessions#destroy'
+	match 'callback', to: 'sessions#create'
+	match 'signout', to: 'sessions#destroy'
 
 	#match '/youtube/:video_id', to: 'youtube#show'
 	#match '/youtube/:video_id/edit', to: 'youtube#update', as: :edit_youtube

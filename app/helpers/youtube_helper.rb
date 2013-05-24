@@ -15,7 +15,8 @@ module YoutubeHelper
 	end
 
   def add_edit_link_for(youtube)
-  	link_to_if youtube.new_record?, 'Add', new_youtube_path(youtube), remote: true do
+  	link_to_if youtube.new_record?,
+      'Add', new_youtube_path(youtube), remote: true do # Else...
       link_to 'Edit', edit_youtube_path(youtube), remote: true
 		end
   end

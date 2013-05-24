@@ -21,24 +21,7 @@ class YoutubeController < ApplicationController
 
 	def show
 		@youtube = Youtube.find_by_video_id(params[:id]) || Youtube.new(video_id: params[:id])
-		client = GoogleAPI.new_client
-		# Use a begin..catch block for Google API client executions.
-    # Especially for users who revoked access.
-		youtube_api = client.discovered_api('youtube', 'v3')
-		result = client.execute(
-			api_method: youtube_api.videos.list,
-			parameters: {
-				id: params[:id],
-				part: 'snippet,status',
-				fields: 'items(status(embeddable,privacyStatus),snippet(title,categoryId,channelId,channelTitle))'
-			}
-			# Parameters to be different for cached video data.
-		)
-    @youtube.api_data = result.data.items[0]
-    @warnings = []
-    if @youtube.api_data.snippet.categoryId != '10'
-      @warnings << "Video does not belong in the Music category."
-    end
+    @youtube.retrieve_api_data
 	end
 
 	def create

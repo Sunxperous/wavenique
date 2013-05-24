@@ -1,11 +1,9 @@
 class Youtube < ActiveRecord::Base
-	audited
-	has_associated_audits
   default_scope includes(:performances => [:artists, :compositions])
-	has_many :performances, inverse_of: :youtube, conditions: { unlinked: false }
+	has_many :performances, inverse_of: :youtube
   has_one :channel, class_name: 'User', foreign_key: 'youtube_channel', primary_key: 'channel_id'
 	attr_accessible :video_id
-  attr_accessor :new_content, :api_data
+  attr_accessor :new_content, :api_data, :warnings
   # new_content: Captures all artists and compositions not present in database to prevent duplicated values.
   before_validation :fill_youtube_particulars, unless: Proc.new { |p| channel_id.present? }
 	validates :video_id, length: { is: 11 }, presence: true, uniqueness: { case_sensitive: true }
@@ -16,6 +14,41 @@ class Youtube < ActiveRecord::Base
 		video_id
 	end
 
+  after_initialize do |youtube|
+    youtube.warnings = []
+  end
+
+  def available?
+    return if api_data.blank?
+    if api_data.snippet.categoryId != '10'
+      warnings << "YouTube video does not belong in the Music category."
+    end
+    if !api_data.status.embeddable
+      warnings << "YouTube video is not embeddable."
+    end
+    if api_data.status.privacyStatus != 'public'
+      warnings << "YouTube video is not made public."
+    end
+  end
+
+  def retrieve_api_data
+		client = GoogleAPI.new_client
+		# Use a begin..catch block for Google API client executions.
+    # Especially for users who revoked access.
+		youtube_api = client.discovered_api('youtube', 'v3')
+		result = client.execute(
+			api_method: youtube_api.videos.list,
+			parameters: {
+				id: video_id,
+				part: 'snippet,status',
+				fields: 'items(status(embeddable,privacyStatus),snippet(title,categoryId,channelId,channelTitle))'
+			}
+			# Parameters to be different for cached video data.
+		)
+    self.api_data = result.data.items[0]
+    available?
+  end
+
 	def modify(p)
     # Cleanse performance hash of empty values.
     p[:perf].delete_if do |k, v|
@@ -24,6 +57,7 @@ class Youtube < ActiveRecord::Base
       v["comp"].empty?
     end
     # Detect changes for existing Youtube.
+    # Decouple into another function.
     if !new_record?
       if !changes?(p[:perf].values)
         errors[:base] << "There are no changes."
@@ -35,10 +69,12 @@ class Youtube < ActiveRecord::Base
       end
     end
 		# Validate video_id is embeddable and in Music category. And exists.
+    retrieve_api_data
     transaction do
       self.new_content = { artists: [], compositions: [] } 
       new_record? ? add_performances(p[:perf]) : edit_performances(p[:perf])
       self.new_content = nil
+      raise ActiveRecord::Rollback if !valid?
       save
     end
 	end
@@ -69,22 +105,23 @@ class Youtube < ActiveRecord::Base
     compositions_changed or artists_changed
   end
 
-	def add_performances(performances_hash)
-		performances_hash.values.each do |hash|
+	def add_performances(incoming_perf_hash)
+		incoming_perf_hash.values.each do |hash|
 			performances << Performance.define_new(hash, new_content)
 		end
 	end
 
-	def edit_performances(performances_hash)
-		if performances.length >= performances_hash.length
+	def edit_performances(incoming_perf_hash)
+		if performances.length >= incoming_perf_hash.length
       # If there are more or equal existing performances...
-			performances.zip(performances_hash.values) do |current, incoming|
+      zipped = performances.zip(incoming_perf_hash.values)
+			zipped.each do |current, incoming|
 				incoming.present? ? current.redefine(incoming, new_content) :
-          current.unlink
+          performances.delete(current)
 			end
 		else
       # There are less existing performances...
-			performances_hash.values.zip(performances) do |incoming, current|
+			incoming_perf_hash.values.zip(performances) do |incoming, current|
         current.present? ? current.redefine(incoming, new_content) :
 					(performances << Performance.define_new(incoming, new_content))
 			end

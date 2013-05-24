@@ -15,7 +15,9 @@
         </section>
         <section id="youtube_info">
           <span class="conjunction">uploaded by </span>
-          <span><%= @youtube.api_data.snippet.channelTitle %></span>
+          <span class="uploader">
+            <%= @youtube.api_data.snippet.channelTitle %>
+          </span>
         </section>
       </section>
       <%# End partial: Video display %>
@@ -24,13 +26,10 @@
           <%= add_edit_link_for @youtube %>
         </li>
       </ul>
-      <div id="form_container" class="info-container">
-        <%# Make warning-errors partial, which render on form submission. %>
-        <section id="warning_errors">
-          <% @warnings.each do |w| %>
-            <span class="warning"><%= w %></span>
-          <% end %>
-        </section>
+      <div class="info-container">
+        <%= render 'shared/warnings_errors_for', obj: @youtube %>
+        <div id="form_container">
+        </div>
       </div>
     <% else %>
       <p>Video is not public nor embeddable.</p>
@@ -39,7 +38,7 @@
     <%# Use controllers to render errors. %>
     <p>Video id does not exist.</p>
   <% end %>
-  <% content_for :debug do %>
-    <%= debug @result.data if false %>
-  <% end %>
 </section>
+  <% content_for :debug do %>
+    <%#= debug @youtube %>
+  <% end %>

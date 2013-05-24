@@ -122,9 +122,10 @@ $ ->
     $('button').unbind('click')
     $('button.add-composition').click -> add_element($(this), $('.hidden').find('.comp-fields'), $(this).parent().siblings('.fields').first())
     $('button.add-artist').click -> add_element($(this), $('.hidden').find('.artist-fields'), $(this).parent().siblings('.fields').first())
-    $('button.add-performance').click -> add_element($(this), $('.hidden'), $(this).siblings('div.performances').first())
-    $('.close').click ->
+    $('button.add-performance').click -> add_element($(this), $('.hidden'), $(this).siblings('div.form-performances').last())
+    $('#close').click ->
       $('#form_container').empty()
+      $('#warnings_errors').empty()
 
   # Initialization.
   #apply_interactions()

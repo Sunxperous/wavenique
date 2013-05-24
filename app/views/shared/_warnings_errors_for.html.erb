@@ -1,0 +1,9 @@
+<%# Locals: obj %>
+<ul id="warnings_errors">
+  <% obj.warnings.each do |w| %>
+    <li class="warning"><%= w %></span>
+  <% end %>
+  <% obj.errors.full_messages.each do |e| %>
+    <li class="error"><%= e %></span>
+  <% end %>
+</ul>
