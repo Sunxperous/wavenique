@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 feature 'Google sign in' do
-=begin
 	scenario 'with allowed access' do
 	end
 
@@ -14,6 +13,5 @@ feature 'Google sign in' do
 		click_button 'Allow access'
 		page.should have_selector('h1', text: 'Wang Jun Sun')
 	end
-=end
 end
 

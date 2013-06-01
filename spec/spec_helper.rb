@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'spork'
 require 'database_cleaner'
+require 'capybara/rspec'
+require 'capybara/poltergeist'
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 
@@ -47,17 +49,20 @@ Spork.prefork do
   #     --seed 1234
   config.order = "random"
 
-  # Database cleaner.
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:deletion)
-  end
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-  config.after(:each) do
-    DatabaseCleaner.clean
-  end
+    # Database cleaner.
+    config.before(:suite) do
+      DatabaseCleaner.strategy = :transaction
+      DatabaseCleaner.clean_with(:deletion)
+    end
+    config.before(:each) do
+      DatabaseCleaner.start
+    end
+    config.after(:each) do
+      DatabaseCleaner.clean
+    end
+
+    # Capybara.
+    Capybara.javascript_driver = :poltergeist
   end
 end
 

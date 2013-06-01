@@ -117,7 +117,6 @@ class Youtube < ActiveRecord::Base
       end
     end
     edited_tags = edited_performances.map { |v| v['tag'] }
-    p edited_tags
     # Comparison of current ids and incoming ids.
     compositions_changed = edited_compositions !=
       performances.map { |v| v.composition_ids }

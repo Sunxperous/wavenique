@@ -58,6 +58,7 @@ GEM
     database_cleaner (1.0.1)
     diff-lcs (1.2.2)
     erubis (2.7.0)
+    eventmachine (1.0.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
     extlib (0.9.16)
@@ -68,6 +69,8 @@ GEM
       railties (>= 3.0.0)
     faraday (0.8.7)
       multipart-post (~> 1.1)
+    faye-websocket (0.4.7)
+      eventmachine (>= 0.12.0)
     ffi (1.6.0)
     formatador (0.2.4)
     google-api-client (0.6.3)
@@ -96,6 +99,7 @@ GEM
     haml (4.0.3)
       tilt
     hike (1.2.2)
+    http_parser.rb (0.5.3)
     i18n (0.6.1)
     journey (1.0.4)
     jquery-rails (2.2.1)
@@ -121,6 +125,10 @@ GEM
     multipart-post (1.2.0)
     nokogiri (1.5.9)
     pg (0.15.1)
+    poltergeist (1.3.0)
+      capybara (~> 2.1.0)
+      faye-websocket (>= 0.4.4, < 0.5.0)
+      http_parser.rb (~> 0.5.3)
     polyglot (0.3.3)
     pry (0.9.12)
       coderay (~> 1.0.5)
@@ -214,6 +222,7 @@ DEPENDENCIES
   jquery-rails
   jquery-ui-rails
   pg
+  poltergeist
   rails (= 3.2.13)
   rspec-mocks
   rspec-rails
