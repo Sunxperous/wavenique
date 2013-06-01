@@ -1,0 +1,19 @@
+- title @composition.title
+
+%section#composition
+  %h1#title= @composition.title
+  %ul#options.info-container
+    %li
+      Merge into
+      = form_tag merge_composition_path, method: :put
+      = text_field_tag :target_value, '', id: 'composition_merge'
+      = hidden_field_tag :target_id
+      = submit_tag 'Merge', disabled: true
+  %ul
+    - @performances.each do |performance|
+      %li
+        = generate_infolink performance: performance, focus: 'artist'
+
+- content_for :debug do
+  = debug @performances if true
+  = debug @artist if 1

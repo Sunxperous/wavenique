@@ -13,7 +13,7 @@ class Composition < ActiveRecord::Base
     return [] unless title.present?
     composition = self.where(id: id).first_or_initialize(title: title)
     # Return an existing composition from the database.
-    return composition unless composition.new_record?
+    return Composition.find(composition.original) unless composition.new_record?
     recent = new_content[:compositions].select {
       |n| n.title == composition.title }.last
     # Return recent incoming, non-existent composition.
@@ -22,4 +22,14 @@ class Composition < ActiveRecord::Base
     # Return an entirely new composition.
     composition
 	end
+
+  def merge(target)
+    update_attribute(:original_id, target)
+    PerformanceComposition.where("composition_id = ?", id).update_all(:composition_id => target)
+    Composition.where("original_id = ?", id).update_all(:original_id => target)
+  end
+
+  def original
+    self.original_id or self.id
+  end
 end

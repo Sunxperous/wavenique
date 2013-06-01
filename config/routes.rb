@@ -2,6 +2,7 @@ Vagrant::Application.routes.draw do
 	resources :users
 	resources :compositions, only: [:index, :show] do
     match '/find', on: :collection, action: :find
+    match '/merge', via: :put, on: :member, action: :merge
   end
   resources :artists, only: [:index, :show] do
     match '/find', on: :collection, action: :find
