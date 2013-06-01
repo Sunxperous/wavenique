@@ -3,6 +3,7 @@ class YoutubeController < ApplicationController
   
 	def new
 		@youtube = Youtube.new(video_id: params[:id])
+    @youtube.retrieve_api_data
 		p = @youtube.performances.build
 		p.compositions.build
 		p.artists.build

@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   validates_uniqueness_of :google_id
   after_create :fill_youtube_particulars 
   has_many :youtube_uploads, class_name: 'Youtube', foreign_key: 'channel_id', primary_key: 'youtube_channel'
+  has_one :artist, foreign_key: 'youtube_channel_id', primary_key: 'youtube_channel'
 
   def playlists
     client = GoogleAPI.new_client(authorization: true, user: self)

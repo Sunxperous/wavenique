@@ -46,6 +46,8 @@ class Youtube < ActiveRecord::Base
 			# Parameters to be different for cached video data.
 		)
     self.api_data = result.data.items[0]
+    # Uploader is artist hack.
+    self.channel_id = result.data.items[0].snippet.channelId
     available?
   end
 

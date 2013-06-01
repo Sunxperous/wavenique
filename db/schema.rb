@@ -11,18 +11,20 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130601033450) do
+ActiveRecord::Schema.define(:version => 20130601051029) do
 
   create_table "artists", :force => true do |t|
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
     t.string   "name"
     t.boolean  "proper"
     t.integer  "original_id"
+    t.string   "youtube_channel_id"
   end
 
   add_index "artists", ["name"], :name => "index_artists_on_name"
   add_index "artists", ["original_id"], :name => "index_artists_on_original_id"
+  add_index "artists", ["youtube_channel_id"], :name => "index_artists_on_youtube_channel_id", :unique => true
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"

@@ -13,8 +13,7 @@ class Performance < ActiveRecord::Base
         properties['id'], properties['t'], new_content)
 		end
 		incoming['artist'].values.each do |properties|
-			artists << Artist.existing_or_new(
-        properties['id'], properties['n'], new_content)
+			artists << Artist.existing_or_new(properties, new_content)
 		end
   end
 

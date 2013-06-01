@@ -3,6 +3,7 @@
     artist.name,
     class: 'artist-autocomplete' + (artist.id.present? ? ' existing' : '')
   %>
+  <%= check_box_tag "perf[#{ count['perf'] }][artist[#{ count['name'] }][u]]", @youtube.channel_id, false %>
   <%= hidden_field_tag "perf[#{ count['perf'] }][artist[#{ count['name'] }][id]]",
     artist.id
   %>
