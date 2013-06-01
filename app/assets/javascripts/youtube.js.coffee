@@ -62,7 +62,7 @@ $ ->
   # Autocomplete block for Compositions.
   comp_autocomplete =
     source: (value, response) ->
-      $.getJSON '/compositions', find: value.term, (data, status, xhr) ->
+      $.getJSON '/compositions/find', title: value.term, (data, status, xhr) ->
         response($.map(data, (item) -> {
           label: item.title
           value: item.title
@@ -79,7 +79,7 @@ $ ->
   # Autocomplete block for Artists.
   artist_autocomplete =
     source: (value, response) ->
-      $.getJSON '/artists', find: value.term, (data, status, xhr) ->
+      $.getJSON '/artists/find', name: value.term, (data, status, xhr) ->
         response($.map(data, (item) -> {
           label: item.name
           value: item.name

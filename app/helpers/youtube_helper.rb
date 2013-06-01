@@ -20,4 +20,35 @@ module YoutubeHelper
       link_to 'Edit', edit_youtube_path(youtube), remote: true
 		end
   end
+
+  def thumbnail_for(video_id)
+    "https://i.ytimg.com/vi/#{video_id}/default.jpg"
+  end
+
+  def generate_infolink(details={})
+    # focus: whether Youtube, artist, composition.
+    #p details
+    if details[:focus] == "composition"
+      primary = details[:performance].compositions.map(&:title).join(', ')
+      if details[:performance].artists.length > 1
+        with = details[:performance].artists.map(&:name).join(', ')
+      end
+    elsif details[:focus] == "artist"
+      primary = details[:performance].artists.map(&:name).join(', ')
+      if details[:performance].compositions.length > 1
+        with = details[:performance].compositions.map(&:title).join(', ')
+      end
+    else
+      # details[:focus] = Youtube.
+    end
+    if details[:performance].youtube.performances.count > 1
+      count = details[:performance].youtube.performances.count
+      additional = "#{count - 1} other #{'performance'.pluralize(count - 1)}"
+    end
+    render 'youtube/infolink',
+      video_id: details[:performance].youtube.video_id,
+      primary: primary,
+      with: with,
+      additional: additional
+  end
 end

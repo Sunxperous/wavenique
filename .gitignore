@@ -27,3 +27,4 @@
 # Miscellaneous ignores.
 .DS_Store
 /config/database.yml
+

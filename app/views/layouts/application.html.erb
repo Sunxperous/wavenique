@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Wavenique</title> <%# To: Style title text. %>
+    <title><%= content_for?(:title) ? content_for(:title) : "Wavenique" %></title>
     <%= stylesheet_link_tag    "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
@@ -11,13 +11,13 @@
     <main>
       <%= yield %>
     </main>
-    <aside id="debug">
-      <% if Rails.env.development? %>
+    <% if Rails.env.development? %>
+      <aside id="debug">
         <%= yield :debug %>
         <%= debug params if false %>
         <%= debug session if false %>
         <%= debug current_user if false %>
-      <% end %>
-    </aside>
+      </aside>
+    <% end %>
   </body>
 </html>

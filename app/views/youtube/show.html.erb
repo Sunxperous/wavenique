@@ -1,4 +1,4 @@
-<section id="youtube">
+<section id="youtube" class="main">
   <% if @youtube.api_data.present? %>
     <% if @youtube.api_data.status.embeddable and
     @youtube.api_data.status.privacyStatus == 'public' %>
@@ -16,7 +16,10 @@
         <section id="youtube_info">
           <span class="conjunction">uploaded by </span>
           <span class="uploader">
-            <%= @youtube.api_data.snippet.channelTitle %>
+            <%# Link to Youtube channel if not user on Wavenique. %>
+            <%= link_to @youtube.api_data.snippet.channelTitle,
+              "http://www.youtube.com/channel/#{@youtube.api_data.snippet.channelId}"
+            %>
           </span>
         </section>
       </section>
@@ -39,6 +42,16 @@
     <p>Video id does not exist.</p>
   <% end %>
 </section>
+  <ul id="related">
+    <% @related.items.each do |item| %>
+      <li>
+      <%= render 'youtube/infolink',
+        video_id: item.id.videoId,
+        primary: item.snippet.title
+      %>
+      </li>
+    <% end %>
+  </ul>
   <% content_for :debug do %>
     <%#= debug @youtube %>
   <% end %>

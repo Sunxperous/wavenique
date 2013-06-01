@@ -1,7 +1,12 @@
 Vagrant::Application.routes.draw do
 	resources :users
-	resources :compositions, only: [:index]
-	resources :artists, only: [:index]
+	resources :compositions, only: [:index, :show] do
+    match '/find', on: :collection, action: :find
+  end
+  resources :artists, only: [:index, :show] do
+    match '/find', on: :collection, action: :find
+    match '/merge', via: :put, on: :member, action: :merge
+  end
 	resources :youtube, controller: :youtube, except: [:create, :new] do
 		member do
 			match '/create', as: :create, via: :post, action: :create
@@ -13,9 +18,7 @@ Vagrant::Application.routes.draw do
 
 	match 'callback', to: 'sessions#create'
 	match 'signout', to: 'sessions#destroy'
-
-	#match '/youtube/:video_id', to: 'youtube#show'
-	#match '/youtube/:video_id/edit', to: 'youtube#update', as: :edit_youtube
+  match 'search', to: 'youtube#search', via: :get
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

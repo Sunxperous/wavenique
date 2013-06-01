@@ -15,47 +15,64 @@
 
 @import "base";
 
-* {
-	color: $primary;
-}
 body {
 	background-color: $background;
 	font-family: $family; 
   font-size: 14px;
+	color: $primary;
 }
 a {
-  color: $link-active;
-  text-decoration: none;
+  &:hover, &:link, &:active, &:visited {
+    color: $link-active;
+    text-decoration: none;
+  }
 }
 header {
-  margin: 20px 10px 5px 10px;
-	float: left;
+  margin: 10px 10px 5px 10px;
+  background-color: $foreground;
   nav {
-    background-color: $foreground;
-    margin-top: 5px;
     padding: 5px 10px;
+    display: inline-block;
     a {
       line-height: 1.3em;
-      display: block;
+      margin: 0px 10px;
     }
   }
 }
 #logo {
   color: $highlight;
   padding: 10px;
-  background-color: $foreground;
   font-size: 2em;
+  display: inline-block;
 }
 main {
-	float: left;
-	margin: 20px 10px;
-  width: 640px;
+  display: block;
+	margin: 10px 10px;
+}
+.main {
+  float: left;
+  margin-bottom: 10px;
 }
 aside, pre, code {
+  padding: 1em;
 	display: block;
 	clear: both;
 	font-family: monospace;
+  background-color: #ccc;
+  color: #333;
 }
 input, button {
 	color: black;
+}
+h1 {
+  font-size: 2em;
+  margin: 0.5em;
+}
+form#search {
+  display: inline;
+}
+.info-container {
+  margin-top: 5px;
+  background-color: $foreground;
+  padding: 10px;
 }

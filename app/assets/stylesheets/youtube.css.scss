@@ -6,11 +6,6 @@
 
 $button-height: 18px;
 
-.info-container {
-  margin-top: 5px;
-  background-color: $foreground;
-  padding: 10px;
-}
 // #youtube-info
 .performance {
   margin-bottom: 10px;
@@ -29,6 +24,38 @@ $button-height: 18px;
 .conjunction, .uploader {
   font-size: 0.8em;
   line-height: 1em;
+}
+// .infolink
+.infolink {
+  vertical-align: top;
+}
+.thumbnail {
+  height: 50px;
+  display: inline-block;
+  overflow: hidden;
+  img {
+    margin-top: -15px;
+    width: 120px;
+  }
+}
+.infolink-text {
+  display: inline-block;
+  vertical-align: top;
+  width: 300px;
+}
+.primary {
+  font-size: 1em;
+}
+ul#related {
+  float: left;
+  margin-left: 10px;
+  width: 480px;
+}
+.primary, .with, .additional {
+  height: 1.3em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 // form
 .error {

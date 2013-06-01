@@ -1,20 +1,25 @@
-<%# Locals: performances, youtube_snippet %>
+<%# Locals: performances, youtube_snippet, global_link %>
+<% global_link ||= false %>
 <% if performances.blank? %>
 	<p class="youtube-title">
 		<%= youtube_snippet.title %>    
   </p>
 <% else %>
   <ol id="performances">
-	<% @youtube.performances.each do |perf| %>
+	<% performances.each do |perf| %>
     <li class="performance">
       <ol class="compositions">
       <% perf.compositions.each do |c| %>
-        <li class="composition"><%= c.title %></li>
+        <li class="composition">
+          <%= link_to_unless global_link, c.title, composition_path(c) %>
+        </li>
       <% end %>
       </ol>
       <ol class="artists">
         <% perf.artists.each do |a| %>
-          <li class="artist"><%= a.name %></li>
+          <li class="artist">
+            <%= link_to_unless global_link, a.name, artist_path(a) %>
+          </li>
         <% end %>
       </ol>
     </li>

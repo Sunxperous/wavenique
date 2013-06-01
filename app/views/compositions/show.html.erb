@@ -1,0 +1,14 @@
+<% title @composition.title %> 
+<section id="composition">
+  <h1 id="title"><%= @composition.title %></h1>
+  <ul>
+  <% @performances.each do |performance| %>
+    <li>
+    <%= generate_infolink performance: performance, focus: 'artist' %>
+    </li>
+  <% end %>
+  </ul>
+<% content_for :debug do %>
+  <%= debug @composition if 1 %>
+<% end %>
+</section>

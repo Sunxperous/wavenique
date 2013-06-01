@@ -1,14 +1,14 @@
 class Youtube < ActiveRecord::Base
-  default_scope includes(:performances => [:artists, :compositions])
-	has_many :performances, inverse_of: :youtube
-  has_one :channel, class_name: 'User', foreign_key: 'youtube_channel', primary_key: 'channel_id'
 	attr_accessible :video_id
   attr_accessor :new_content, :api_data, :warnings
-  # new_content: Captures all artists and compositions not present in database to prevent duplicated values.
+	has_many :performances, inverse_of: :youtube
+  has_one :channel, class_name: 'User', foreign_key: 'youtube_channel', primary_key: 'channel_id'
   before_validation :fill_youtube_particulars, unless: Proc.new { |p| channel_id.present? }
 	validates :video_id, length: { is: 11 }, presence: true, uniqueness: { case_sensitive: true }
 	validates_presence_of :performances, :channel_id
 	validates_associated :performances
+
+  scope :with_performances, includes(:performances => [:artists, :compositions])
 
 	def to_param
 		video_id
@@ -47,6 +47,23 @@ class Youtube < ActiveRecord::Base
 		)
     self.api_data = result.data.items[0]
     available?
+  end
+
+  def related
+    client = GoogleAPI.new_client
+    youtube_api = client.discovered_api('youtube', 'v3')
+    result = client.execute(
+      api_method: youtube_api.search.list,
+      parameters: {
+        part: 'id, snippet',
+        maxResults: 15,
+        relatedToVideoId: video_id,
+        type: 'video',
+        videoEmbeddable: 'true',
+        videoCategoryId: '10'
+      }
+    )
+    result.data
   end
 
 	def modify(p)

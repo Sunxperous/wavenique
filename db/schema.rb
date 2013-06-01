@@ -11,15 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130522101330) do
+ActiveRecord::Schema.define(:version => 20130531122700) do
 
   create_table "artists", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.string   "name"
+    t.boolean  "proper"
+    t.integer  "original_id"
   end
 
   add_index "artists", ["name"], :name => "index_artists_on_name"
+  add_index "artists", ["original_id"], :name => "index_artists_on_original_id"
 
   create_table "audits", :force => true do |t|
     t.integer  "auditable_id"

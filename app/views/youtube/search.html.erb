@@ -1,0 +1,15 @@
+<section id="youtubes">
+  <ul>
+    <% @data.items.each do |item| %>
+      <li>
+      <%= render 'youtube/infolink',
+        video_id: item.id.videoId,
+        primary: item.snippet.title
+      %>
+      </li>
+    <% end %>
+  </ul>
+</section>
+<% content_for :debug do %>
+  <%= debug @data %>
+<% end %>
