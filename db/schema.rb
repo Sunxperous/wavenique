@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130601051029) do
+ActiveRecord::Schema.define(:version => 20130601071019) do
 
   create_table "artists", :force => true do |t|
     t.datetime "created_at",         :null => false
@@ -80,6 +80,15 @@ ActiveRecord::Schema.define(:version => 20130601051029) do
   add_index "performance_compositions", ["performance_id", "composition_id"], :name => "by_performance_compositions", :unique => true
   add_index "performance_compositions", ["performance_id"], :name => "index_performance_compositions_on_performance_id"
 
+  create_table "performance_tags", :force => true do |t|
+    t.integer  "tag_id"
+    t.integer  "performance_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "performance_tags", ["tag_id", "performance_id"], :name => "index_performance_tags_on_tag_id_and_performance_id", :unique => true
+
   create_table "performances", :force => true do |t|
     t.integer  "youtube_id"
     t.datetime "created_at", :null => false
@@ -87,6 +96,12 @@ ActiveRecord::Schema.define(:version => 20130601051029) do
   end
 
   add_index "performances", ["youtube_id"], :name => "index_performances_on_youtube_id"
+
+  create_table "tags", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string "google_id"

@@ -116,12 +116,16 @@ class Youtube < ActiveRecord::Base
         end
       end
     end
+    edited_tags = edited_performances.map { |v| v['tag'] }
+    p edited_tags
     # Comparison of current ids and incoming ids.
     compositions_changed = edited_compositions !=
       performances.map { |v| v.composition_ids }
     artists_changed = edited_artists !=
       performances.map { |v| v.artist_ids }
-    compositions_changed or artists_changed
+    tags_changed = edited_tags !=
+      performances.map(&:tags)
+    compositions_changed or artists_changed or tags_changed
   end
 
 	def add_performances(incoming_perf_hash)

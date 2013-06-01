@@ -1,0 +1,3 @@
+- Tag.all.each do |t|
+  = check_box_tag "perf[#{ count['perf'] }]tag[]", t.name, tags.include?(t.name)
+  = label_tag t.name

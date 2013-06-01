@@ -4,6 +4,8 @@ class Performance < ActiveRecord::Base
 	has_many :compositions, through: :performance_compositions
 	has_many :performance_artists
 	has_many :artists, through: :performance_artists
+  has_many :performance_tags
+  has_many :tags, through: :performance_tags
 	validates_presence_of :youtube, :compositions
 	validates_associated :compositions, :artists
 
@@ -15,6 +17,11 @@ class Performance < ActiveRecord::Base
 		incoming['artist'].values.each do |properties|
 			artists << Artist.existing_or_new(properties, new_content)
 		end
+    if incoming['tag'].present?
+      incoming['tag'].each do |name|
+        tags << Tag.find_by_name(name)
+      end
+    end
   end
 
 	def self.define_new(incoming, new_content)
@@ -26,6 +33,7 @@ class Performance < ActiveRecord::Base
 	def redefine(incoming, new_content)
 		compositions.clear
 		artists.clear
+    tags.clear
     define(incoming, new_content)
 	end
 

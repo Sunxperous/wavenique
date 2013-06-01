@@ -3,6 +3,12 @@
   <fieldset class="<%= fieldset_class %>" id="perf[<%= count['perf'] += 1 %>]">
     <p class="performance-label">Performance</p>
     <div class="sub-fieldset">
+      <div class="label">Tags</div>
+      <div class="fields">
+        <%= render 'form_tags', count: count, tags: performance.tags.map(&:name) %>
+      </div>
+    </div>
+    <div class="sub-fieldset">
       <div class="label">Titles</div>
       <div class="fields">
       <% performance.compositions.each do |composition| %>

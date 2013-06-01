@@ -48,6 +48,7 @@ module YoutubeHelper
     render 'youtube/infolink',
       video_id: details[:performance].youtube.video_id,
       primary: primary,
+      tags: details[:performance].tags.map(&:name).join(' '),
       with: with,
       additional: additional
   end
