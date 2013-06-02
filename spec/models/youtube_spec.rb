@@ -46,28 +46,6 @@ describe Youtube do
       }
       expect(expected_count).to eq(actual_count)
     end
-=begin
-    specify 'changes Youtube count' do
-      expect(Youtube.count).to eq(count_of[:youtube] + h[:y])
-    end
-    specify 'changes Performance count' do
-      expect(Performance.count).to eq(count_of[:performance] + h[:p])
-    end
-    specify 'changes Artist count' do
-      expect(Artist.count).to eq(count_of[:artist] + h[:a])
-    end
-    specify 'changes Composition count' do
-      expect(Composition.count).to eq(count_of[:composition] + h[:c])
-    end
-    h[:y] == 0 ? (it { should_not change { Youtube.count } }) :
-    (it { should change { Youtube.count }.by(h[:y]) })
-    h[:p] == 0 ? (it { should_not change { Performance.count } }) :
-    (it { should change { Performance.count }.by(h[:p]) })
-    h[:c] == 0 ? (it { should_not change { Composition.count } }) :
-    (it { should change { Composition.count }.by(h[:c]) })
-    h[:a] == 0 ? (it { should_not change { Artist.count } }) :
-    (it { should change { Artist.count }.by(h[:a]) })
-=end
   end 
 
   before do
@@ -272,7 +250,7 @@ describe Youtube do
             expect(youtube.errors[:base]).to include('Someone else has edited.')
           end
         end
-        context 'with unchanged 2a2c' do
+        context 'with unchanged 1a1c, 2a2c' do
           before { youtube.modify(to_params(
             youtube,
             timestamp: youtube.updated_at.to_s

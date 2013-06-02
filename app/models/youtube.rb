@@ -124,7 +124,7 @@ class Youtube < ActiveRecord::Base
       performances.map { |v| v.artist_ids }
     tags_changed = edited_tags !=
       performances.map(&:tags)
-    compositions_changed or artists_changed or tags_changed
+    compositions_changed or artists_changed# or tags_changed
   end
 
 	def add_performances(incoming_perf_hash)

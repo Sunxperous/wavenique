@@ -14,7 +14,7 @@ group :development, :test do
   gem 'capybara'
   gem 'poltergeist'
   gem 'guard-rspec'
-  gem 'spork'
+  gem 'spork' # Might have to use spork-rails next time.
   gem 'guard-spork'
 	gem 'shoulda-matchers'
   gem 'rspec-mocks'
