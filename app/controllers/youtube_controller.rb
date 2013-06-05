@@ -39,20 +39,14 @@ class YoutubeController < ApplicationController
 	end
 
   def search 
-    client = GoogleAPI.new_client
-    youtube_api = client.discovered_api('youtube', 'v3')      
-    result = client.execute(
-      api_method: youtube_api.search.list,
-      parameters: {
-        q: params[:search],
-        part: 'id, snippet',
-        maxResults: 25,
-        type: 'video',
-        videoEmbeddable: 'true',
-        videoCategoryId: '10'
-      }
-    )
-    @data = result.data
+    @data = GoogleAPI.youtube('search', 'list', {
+      q: params[:search],
+      part: 'id, snippet',
+      maxResults: 25,
+      type: 'video',
+      videoEmbeddable: 'true',
+      videoCategoryId: '10'
+    })
   end
 
   def index

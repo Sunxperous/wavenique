@@ -2,9 +2,17 @@ class Youtube < ActiveRecord::Base
 	attr_accessible :video_id
   attr_accessor :new_content, :api_data, :warnings
 	has_many :performances, inverse_of: :youtube
-  has_one :channel, class_name: 'User', foreign_key: 'youtube_channel', primary_key: 'channel_id'
-  before_validation :fill_youtube_particulars, unless: Proc.new { |p| channel_id.present? }
-	validates :video_id, length: { is: 11 }, presence: true, uniqueness: { case_sensitive: true }
+  belongs_to :channel,
+    class_name: 'User',
+    foreign_key: 'channel_id',
+    primary_key: 'youtube_channel'
+  before_validation :fill_particulars,
+    unless: Proc.new { |p| channel_id.present? }
+	validates :video_id,
+    length: { is: 11 },
+    presence: true,
+    uniqueness: { case_sensitive: true },
+    format: { with: /[a-zA-Z0-9_-]{11}/ }
 	validates_presence_of :performances, :channel_id
 	validates_associated :performances
 
@@ -32,40 +40,26 @@ class Youtube < ActiveRecord::Base
   end
 
   def retrieve_api_data
-		client = GoogleAPI.new_client
-		# Use a begin..catch block for Google API client executions.
-    # Especially for users who revoked access.
-		youtube_api = client.discovered_api('youtube', 'v3')
-		result = client.execute(
-			api_method: youtube_api.videos.list,
-			parameters: {
-				id: video_id,
-				part: 'snippet,status',
-				fields: 'items(status(embeddable,privacyStatus),snippet(title,categoryId,channelId,channelTitle))'
-			}
-			# Parameters to be different for cached video data.
-		)
-    self.api_data = result.data.items[0]
+    data = GoogleAPI.youtube('videos', 'list', {
+      id: video_id,
+	  	part: 'snippet,status',
+			fields: 'items(status(embeddable,privacyStatus),snippet(title,categoryId,channelId,channelTitle))'
+		})
+    self.api_data = data.items[0]
     # Uploader is artist hack.
-    self.channel_id = result.data.items[0].snippet.channelId
+    self.channel_id = data.items[0].snippet.channelId
     available?
   end
 
   def related
-    client = GoogleAPI.new_client
-    youtube_api = client.discovered_api('youtube', 'v3')
-    result = client.execute(
-      api_method: youtube_api.search.list,
-      parameters: {
-        part: 'id, snippet',
-        maxResults: 15,
-        relatedToVideoId: video_id,
-        type: 'video',
-        videoEmbeddable: 'true',
-        videoCategoryId: '10'
-      }
-    )
-    result.data
+    GoogleAPI.youtube('search', 'list', {
+      part: 'id, snippet',
+      maxResults: 15,
+      relatedToVideoId: video_id,
+      type: 'video',
+      videoEmbeddable: 'true',
+      videoCategoryId: '10'
+    })
   end
 
 	def modify(p)
@@ -150,18 +144,13 @@ class Youtube < ActiveRecord::Base
 		end
 	end
 
-  def fill_youtube_particulars 
-    client = GoogleAPI.new_client
-    youtube_api = client.discovered_api('youtube', 'v3')
-    result = client.execute(
-      api_method: youtube_api.videos.list,
-      parameters: {
-        id: video_id,
-        part: 'snippet',
-        fields: 'items(snippet(channelId))'
-      }
-    )
-    self.channel_id = result.data.items[0].snippet.channelId
+  def fill_particulars
+    data = GoogleAPI.youtube('videos', 'list', {
+      id: video_id,
+      part: 'snippet',
+      fields: 'items(snippet(channelId))'
+    })
+    self.channel_id = data.items[0].snippet.channelId
   end
 end
 

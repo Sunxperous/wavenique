@@ -36,6 +36,4 @@ class Performance < ActiveRecord::Base
     tags.clear
     define(incoming, new_content)
 	end
-
-	private
 end

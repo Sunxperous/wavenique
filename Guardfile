@@ -1,6 +1,15 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
+guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' } do
+  watch('config/application.rb')
+  watch('config/environment.rb')
+  watch('config/environments/test.rb')
+  watch(%r{^config/initializers/.+\.rb$})
+  watch('Gemfile')
+  watch('Gemfile.lock')
+  watch('spec/spec_helper.rb') { :rspec }
+end
 
 group 'u-tests' do # Unit tests
   guard 'rspec',
@@ -34,21 +43,12 @@ group 'f-tests' do # Functional tests
 end
 
 group 'i-tests' do # Integration tests
-  guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' } do
-    watch('config/application.rb')
-    watch('config/environment.rb')
-    watch('config/environments/test.rb')
-    watch(%r{^config/initializers/.+\.rb$})
-    watch('Gemfile')
-    watch('Gemfile.lock')
-    watch('spec/spec_helper.rb') { :rspec }
-  end
   guard 'rspec',
   cli: "--drb",
   all_on_start: false,
   all_after_pass: false,
   spec_paths: ['spec/features'] do
-    watch(%r{^app/views/(.+)/.*\.(erb|haml)$}) { |m| "spec/features/#{m[1]}_spec.rb" }
+    #watch(%r{^app/views/(.+)/.*\.(erb|haml)$}) { |m| "spec/features/#{m[1]}_spec.rb" }
     
     # General purpose watch.
     watch(%r{^spec/.+_spec\.rb$})

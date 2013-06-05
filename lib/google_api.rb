@@ -28,4 +28,14 @@ module GoogleAPI
 		end
     client
 	end
+
+  def self.youtube(alpha, beta, parameters)
+    client = self.new_client
+    youtube_api = client.discovered_api('youtube', 'v3')
+    result = client.execute(
+      api_method: youtube_api.send(alpha).send(beta),
+      parameters: parameters
+    )
+    result.data
+  end
 end

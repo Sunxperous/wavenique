@@ -2,7 +2,7 @@
   #logo= link_to 'Wavenique', root_path
   %nav
     = link_to 'Me', user_path(current_user) if signed_in?
-    %form#search{action: "#{search_path}", method: "get"}
+    %form#search{ action: "#{search_path}", method: "get" }
       = text_field_tag :search, params[:search]
       = submit_tag 'Search', name: nil
     - if signed_in?
