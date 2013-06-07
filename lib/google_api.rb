@@ -1,7 +1,7 @@
 module GoogleAPI
 	CLIENT_ID = '863784091693.apps.googleusercontent.com'
 	CLIENT_SECRET = '-rfqVDdlAgD1PuZf3e0sLVdx'
-	REDIRECT_URI = 'http://localhost:3000/callback/'
+	REDIRECT_URI = 'http://localhost:3000/callback/google/'
 	APPLICATION_NAME = 'Wavenique'
 	APPLICATION_VERSION = '0'
   KEY = 'AIzaSyBpEKVvW89LNQZSOdp23XdMjQFVCFhukv8'
@@ -20,14 +20,26 @@ module GoogleAPI
       client.authorization.redirect_uri = REDIRECT_URI
       # If user tokens are required...
       if options[:user]
-        client.authorization.access_token = options[:user].google_access_token
-        client.authorization.refresh_token = options[:user].google_refresh_token
+        client.authorization.access_token = options[:user].access_token
+        client.authorization.refresh_token = options[:user].refresh_token
       end
     else
       client.authorization = nil
 		end
     client
 	end
+
+  def self.authentication(code)
+    client = self.new_client(authorization: true)
+    client.authorization.code = code
+    client.authorization.fetch_access_token!
+    oauth_api = client.discovered_api('oauth2')
+    result = client.execute(
+      api_method: oauth_api.userinfo.v2.me.get,
+      paramters: { fields: 'id,name' }
+    )
+    [result.data, client.authorization.access_token, client.authorization.refresh_token]
+  end
 
   def self.youtube(alpha, beta, parameters)
     client = self.new_client

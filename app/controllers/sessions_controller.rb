@@ -1,23 +1,23 @@
 class SessionsController < ApplicationController
+  before_filter :not_signed_in, only: :google
   def destroy
     sign_out
     reset_session
     redirect_to root_path
   end
 
-  def create
-    # Should utilise "before_filter".
-    # Limit to only Google sign ins in the future.
-    if signed_in?
-      redirect_to current_user
-    elsif params[:code]
-      @u = User.google_sign_in(params[:code])
-
+  def google
+    if params[:code].present?
+      @u = User::Google.sign_in(params[:code])
       sign_in @u 
       redirect_to @u 
     else
-      # Flash a notice that access has been denied.
       redirect_to root_path
     end
+  end
+
+  private
+  def not_signed_in
+    redirect_to current_user if signed_in?
   end
 end

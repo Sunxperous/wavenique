@@ -1,2 +1,2 @@
-class Hash
-end
+require_dependency 'user/google'
+

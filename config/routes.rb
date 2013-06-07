@@ -17,7 +17,10 @@ Vagrant::Application.routes.draw do
 
   root to: 'home#index'
 
-	match 'callback', to: 'sessions#create'
+  scope '/callback' do
+    match 'google', to: 'sessions#google'
+  end
+
 	match 'signout', to: 'sessions#destroy'
   match 'search', to: 'youtube#search', via: :get
 

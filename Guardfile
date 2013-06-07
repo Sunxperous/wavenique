@@ -51,7 +51,7 @@ group 'i-tests' do # Integration tests
     #watch(%r{^app/views/(.+)/.*\.(erb|haml)$}) { |m| "spec/features/#{m[1]}_spec.rb" }
     
     # General purpose watch.
-    watch(%r{^spec/.+_spec\.rb$})
+    watch(%r{^spec/features/.+_spec\.rb$})
     watch('spec/spec_helper.rb') { "spec" }
     watch(%r{^spec/support/(.+)\.rb$}) { "spec" }
   end
