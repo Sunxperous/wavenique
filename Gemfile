@@ -8,13 +8,14 @@ gem 'rails', '3.2.13'
 gem 'pg'
 gem 'haml'
 
-group :development, :test do
+group :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'capybara'
   gem 'poltergeist'
   gem 'guard-rspec'
   gem 'spork' # Might have to use spork-rails next time.
+  gem 'spork-rails'
   gem 'guard-spork'
 	gem 'shoulda-matchers'
   gem 'rspec-mocks'

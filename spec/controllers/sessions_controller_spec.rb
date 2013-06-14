@@ -19,4 +19,10 @@ describe SessionsController do
       expect(response).to redirect_to(user)
     end
   end
+  describe 'GET #destroy' do
+    specify 'redirects to root' do
+      get :destroy
+      expect(response).to redirect_to(root_path)
+    end
+  end
 end

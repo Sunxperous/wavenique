@@ -1,2 +1,2 @@
-require_dependency 'user/google'
+require 'user/google'
 

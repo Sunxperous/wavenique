@@ -8,9 +8,11 @@ describe User do
     it { should respond_to(:name) }
     it { should respond_to(:remember_token) }
     it { should respond_to(:youtube) }
+    it { should respond_to(:admin) }
   end
   context '#methods' do
     it { should respond_to(:remember_token) }
+    it { should respond_to(:admin?) }
   end
   context '#associations' do
     it { should have_one(:youtube) }

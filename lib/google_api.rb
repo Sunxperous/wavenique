@@ -2,6 +2,7 @@ module GoogleAPI
 	CLIENT_ID = '863784091693.apps.googleusercontent.com'
 	CLIENT_SECRET = '-rfqVDdlAgD1PuZf3e0sLVdx'
 	REDIRECT_URI = 'http://localhost:3000/callback/google/'
+  TEST_REDIRECT_URI = 'http://localhost:8000/callback/google/'
 	APPLICATION_NAME = 'Wavenique'
 	APPLICATION_VERSION = '0'
   KEY = 'AIzaSyBpEKVvW89LNQZSOdp23XdMjQFVCFhukv8'
@@ -18,6 +19,7 @@ module GoogleAPI
       client.authorization.client_id = CLIENT_ID
       client.authorization.client_secret = CLIENT_SECRET
       client.authorization.redirect_uri = REDIRECT_URI
+      client.authorization.redirect_uri = TEST_REDIRECT_URI if Rails.env.test?
       # If user tokens are required...
       if options[:user]
         client.authorization.access_token = options[:user].access_token
