@@ -1,0 +1,2 @@
+module Tsunami::UsersHelper
+end

@@ -1,4 +1,6 @@
 Vagrant::Application.routes.draw do
+  root to: 'home#index'
+
 	resources :users
 	resources :compositions, only: [:index, :show] do
     match '/find', on: :collection, action: :find
@@ -14,13 +16,14 @@ Vagrant::Application.routes.draw do
 			match '/new', as: :new, via: :get, action: :new
 		end
 	end
-
-  root to: 'home#index'
-
+  namespace :tsunami do
+    resources :users, only: [:index]
+  end
   scope '/callback' do
     match 'google', to: 'sessions#google'
   end
 
+  match 'tsunami', to: 'tsunami#index'
 	match 'signout', to: 'sessions#destroy'
   match 'search', to: 'youtube#search', via: :get
 

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SessionsController do
   describe 'GET #google' do
-    specify 'with code redirects to user' do
+    specify 'with code signs in and redirects to user' do
       user = FactoryGirl.create(:user)
       User::Google.stub(:sign_in) { user }
       get :google, code: 'code'
@@ -14,7 +14,7 @@ describe SessionsController do
     end 
     specify 'by signed in user redirects to user' do
       user = FactoryGirl.create(:user)
-      sign_in user
+      controller.stub(:current_user) { user }
       get :google
       expect(response).to redirect_to(user)
     end

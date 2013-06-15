@@ -15,7 +15,7 @@ group :test do
   gem 'poltergeist'
   gem 'guard-rspec'
   gem 'spork' # Might have to use spork-rails next time.
-  gem 'spork-rails'
+  #gem 'spork-rails'
   gem 'guard-spork'
 	gem 'shoulda-matchers'
   gem 'rspec-mocks'

@@ -3,26 +3,22 @@ require 'spec_helper'
 
 feature 'Google sign in' do
   context 'for new user' do
-    scenario 'with denied access', js: true do
+    before do
       visit root_path
       click_link 'Sign in'
       fill_in 'Email', with: 'kenoriga@gmail.com'
       fill_in 'Password', with: '15runj3j'
       click_button 'Sign in'
+    end
+    scenario 'with denied access', js: true do
       if page.has_content?('No thanks')
         click_button 'No thanks'
         expect(current_path).to eq(root_path)
       end
     end
     scenario 'with allowed access', js: true do
-      visit root_path
-      click_link 'Sign in'
-      fill_in 'Email', with: 'kenoriga@gmail.com'
-      fill_in 'Password', with: '15runj3j'
-      click_button 'Sign in'
       click_button 'Allow access' if page.has_content?('Allow access')
       click_button 'Accept' if page.has_content?('Accept')
-      #expect(current_path).to eq('/users/1')
       expect(page).to have_text('Sign out')
       expect(page).to have_text('Wang Jun Sun')
     end

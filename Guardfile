@@ -1,6 +1,3 @@
-# A sample Guardfile
-# More info at https://github.com/guard/guard#readme
-
 guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' } do
   watch('config/application.rb')
   watch('config/environment.rb')
@@ -13,6 +10,7 @@ end
 
 group 'u-tests' do # Unit tests
   guard 'rspec',
+  cli: '--drb',
   all_after_pass: false,
   spec_paths: ['spec/models', 'spec/lib'] do
     watch(%r{^lib/(.+)\.rb$}) { |m| "spec/lib/#{m[1]}_spec.rb" }
@@ -27,6 +25,7 @@ end
 
 group 'f-tests' do # Functional tests
   guard 'rspec',
+  cli: '--drb',
   all_on_start: false,
   all_after_pass: false,
   spec_paths: ['spec/helpers', 'spec/controllers', 'spec/views'] do
@@ -44,7 +43,6 @@ end
 
 group 'i-tests' do # Integration tests
   guard 'rspec',
-  cli: "--drb",
   all_on_start: false,
   all_after_pass: false,
   spec_paths: ['spec/features'] do
