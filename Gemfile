@@ -8,7 +8,7 @@ gem 'rails', '3.2.13'
 gem 'pg'
 gem 'haml'
 
-group :test do
+group :development, :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'capybara'

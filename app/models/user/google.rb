@@ -1,7 +1,6 @@
 class User::Google < ActiveRecord::Base
   attr_accessible :site_id
-  belongs_to :user
-
+  belongs_to :user, inverse_of: :youtube
   validates_presence_of :user, :site_id, :access_token, :refresh_token
   validates_uniqueness_of :site_id
 

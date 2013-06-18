@@ -1,1 +1,14 @@
 %table#users
+  %caption Users
+  %thead
+    %tr
+      %th Name
+      %th Joined at
+      %th Google+
+  %tbody
+  - @users.each do |user|
+    %tr.user
+      %td= user.name
+      %td= user.created_at.to_s
+      %td= user.youtube.site_id if user.youtube
+
