@@ -43,6 +43,7 @@ end
 
 group 'i-tests' do # Integration tests
   guard 'rspec',
+  cli: '--drb',
   all_on_start: false,
   all_after_pass: false,
   spec_paths: ['spec/features'] do

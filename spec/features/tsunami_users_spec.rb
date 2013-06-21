@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'Tsunami::Users' do
+feature 'Tsunami users interface' do
   let(:admin) { FactoryGirl.create(:admin) }
   background do
     FactoryGirl.create_list(:user_google, 25)

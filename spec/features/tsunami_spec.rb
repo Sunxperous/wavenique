@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-feature 'Tsunami' do
+feature 'Tsunami interface' do
   background do
     sign_in FactoryGirl.create(:admin)
     visit root_path

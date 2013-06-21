@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  require_dependency 'user/google'
+  include ::Google
   attr_accessible :name
   has_one :youtube,
     class_name: 'User::Google',

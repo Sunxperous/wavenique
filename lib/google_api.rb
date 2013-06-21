@@ -36,10 +36,14 @@ module GoogleAPI
     client.authorization.code = code
     client.authorization.fetch_access_token!
     oauth_api = client.discovered_api('oauth2')
-    result = client.execute(
-      api_method: oauth_api.userinfo.v2.me.get,
-      paramters: { fields: 'id,name' }
-    )
+    begin
+      result = client.execute(
+        api_method: oauth_api.userinfo.v2.me.get,
+        paramters: { fields: 'id,name' }
+      )
+    rescue StandardError => error
+      p error
+    end
     [result.data, client.authorization.access_token, client.authorization.refresh_token]
   end
 

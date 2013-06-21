@@ -1,7 +1,7 @@
 require 'spec_helper'
 # Place private information in a .yml file in the future.
 
-feature 'Google sign in' do
+feature 'Google sign in', js: true do
   context 'for new user' do
     before do
       visit root_path
@@ -10,20 +10,20 @@ feature 'Google sign in' do
       fill_in 'Password', with: '15runj3j'
       click_button 'Sign in'
     end
-    scenario 'with denied access', js: true do
+    scenario 'with denied access' do
       if page.has_content?('No thanks')
         click_button 'No thanks'
         expect(current_path).to eq(root_path)
       end
     end
-    scenario 'with allowed access', js: true do
+    scenario 'with allowed access' do
       click_button 'Allow access' if page.has_content?('Allow access')
       click_button 'Accept' if page.has_content?('Accept')
       expect(page).to have_text('Sign out')
       expect(page).to have_text('Wang Jun Sun')
     end
   end
-  context 'for existing user', js: true do
+  context 'for existing user' do
     background do
       visit root_path
       click_link 'Sign in'

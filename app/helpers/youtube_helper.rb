@@ -24,10 +24,17 @@ module YoutubeHelper
   def thumbnail_for(video_id)
     "https://i.ytimg.com/vi/#{video_id}/default.jpg"
   end
+  
+  def video_link_for(video_id)
+    "https://www.youtube.com/watch?v=#{video_id}"
+  end
+
+  def channel_link_for(channel_id)
+    "https://www.youtube.com/channel/#{channel_id}"
+  end
 
   def generate_infolink(details={})
     # focus: whether Youtube, artist, composition.
-    #p details
     if details[:focus] == "composition"
       primary = details[:performance].compositions.map(&:title).join(', ')
       if details[:performance].artists.length > 1

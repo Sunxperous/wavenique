@@ -1,4 +1,5 @@
 class YoutubeController < ApplicationController
+  before_filter :validate_video_id, only: [:show]
 	# :id parameter always refers to :video_id column.
   
 	def new
@@ -24,18 +25,21 @@ class YoutubeController < ApplicationController
 	def show
 		@youtube = Youtube.with_performances.find_by_video_id(params[:id]) ||
       Youtube.new(video_id: params[:id])
-    @youtube.retrieve_api_data
+    render 'unavailable' unless
+      @youtube.api_data.present? &&
+      @youtube.api_data.status.embeddable &&
+      @youtube.api_data.status.privacyStatus == 'public'
     @related = @youtube.related
 	end
 
 	def create
 		@youtube = Youtube.new(video_id: params[:id])
-		@youtube.modify(params) ? (render 'success') : (render 'errors')
+		#@youtube.modify(params) ? (render 'success') : (render 'errors')
 	end
 
 	def update
 		@youtube = Youtube.with_performances.find_by_video_id(params[:id])
-		@youtube.modify(params) ? (render 'success') : (render 'errors')
+		#@youtube.modify(params) ? (render 'success') : (render 'errors')
 	end
 
   def search 
@@ -51,5 +55,10 @@ class YoutubeController < ApplicationController
 
   def index
     @youtubes = Youtube.order("updated_at DESC").limit(100)
+  end
+
+  private
+  def validate_video_id
+    render 'unavailable' unless params[:id].match(/[a-zA-Z0-9_-]{11}/)
   end
 end

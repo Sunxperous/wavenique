@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe SessionsController do
-  describe 'GET #google' do
+  context 'GET #google' do
     specify 'with code signs in and redirects to user' do
       user = FactoryGirl.create(:user)
       User::Google.stub(:sign_in) { user }
@@ -19,7 +19,7 @@ describe SessionsController do
       expect(response).to redirect_to(user)
     end
   end
-  describe 'GET #destroy' do
+  context 'GET #destroy' do
     specify 'redirects to root' do
       get :destroy
       expect(response).to redirect_to(root_path)

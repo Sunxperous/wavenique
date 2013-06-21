@@ -1,13 +1,11 @@
 class Youtube < ActiveRecord::Base
 	attr_accessible :video_id
-  attr_accessor :new_content, :api_data, :warnings
+  attr_accessor :new_content, :warnings
 	has_many :performances, inverse_of: :youtube
   belongs_to :channel,
     class_name: 'User',
     foreign_key: 'channel_id',
     primary_key: 'youtube_channel'
-  before_validation :fill_particulars,
-    unless: Proc.new { |p| channel_id.present? }
 	validates :video_id,
     length: { is: 11 },
     presence: true,
@@ -15,7 +13,6 @@ class Youtube < ActiveRecord::Base
     format: { with: /[a-zA-Z0-9_-]{11}/ }
 	validates_presence_of :performances, :channel_id
 	validates_associated :performances
-
   scope :with_performances, includes(:performances => [:artists, :compositions])
 
 	def to_param
@@ -26,29 +23,13 @@ class Youtube < ActiveRecord::Base
     youtube.warnings = []
   end
 
-  def available?
-    return if api_data.blank?
-    if api_data.snippet.categoryId != '10'
-      warnings << "YouTube video does not belong in the Music category."
-    end
-    if !api_data.status.embeddable
-      warnings << "YouTube video is not embeddable."
-    end
-    if api_data.status.privacyStatus != 'public'
-      warnings << "YouTube video is not made public."
-    end
-  end
-
-  def retrieve_api_data
-    data = GoogleAPI.youtube('videos', 'list', {
-      id: video_id,
+  def api_data
+    @api_data ||= GoogleAPI.youtube('videos', 'list', {
+      id: self.video_id,
 	  	part: 'snippet,status',
-			fields: 'items(status(embeddable,privacyStatus),snippet(title,categoryId,channelId,channelTitle))'
-		})
-    self.api_data = data.items[0]
-    # Uploader is artist hack.
-    self.channel_id = data.items[0].snippet.channelId
-    available?
+			fields: 'items(status(embeddable,privacyStatus),'\
+        'snippet(title,categoryId,channelId,channelTitle))'
+		}).items[0]
   end
 
   def related
@@ -143,15 +124,6 @@ class Youtube < ActiveRecord::Base
 			end
 		end
 	end
-
-  def fill_particulars
-    data = GoogleAPI.youtube('videos', 'list', {
-      id: video_id,
-      part: 'snippet',
-      fields: 'items(snippet(channelId))'
-    })
-    self.channel_id = data.items[0].snippet.channelId
-  end
 end
 
 

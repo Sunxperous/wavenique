@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   def show
 		@user = User.find_by_id(params[:id])
 		if current_user?(@user)
-			@data = 'Hello'
+			@data = params.class
 		end
   end
 end
