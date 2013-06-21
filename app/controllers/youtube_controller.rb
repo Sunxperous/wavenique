@@ -30,6 +30,7 @@ class YoutubeController < ApplicationController
       @youtube.api_data.status.embeddable &&
       @youtube.api_data.status.privacyStatus == 'public'
     @related = @youtube.related
+    @form_performance = Form::Performance.new 
 	end
 
 	def create

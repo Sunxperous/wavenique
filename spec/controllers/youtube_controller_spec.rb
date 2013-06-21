@@ -28,6 +28,9 @@ describe YoutubeController do
       specify 'assigns @related' do
         expect(assigns(:related)).to_not eq(nil)
       end
+      specify 'assigns @form_performance' do
+        expect(assigns(:form_performance)).to_not eq(nil)
+      end
       specify 'renders show template' do
         expect(response).to be_success
         expect(response).to render_template('show')

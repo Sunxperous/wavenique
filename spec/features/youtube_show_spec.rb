@@ -35,7 +35,9 @@ feature 'Youtube show', js: true do
       )
     end
     scenario 'shows the form to add performances' do
-      expect(find('section.main')).to have_selector('form')
+      expect(find('section.main')).to have_selector('form')      
+      form = find('section.main').find('form')
+      expect(form['action']).to eq("/modify/youtube/#{youtube.video_id}")
     end
     scenario 'links up to 15 related YouTube videos'
   end

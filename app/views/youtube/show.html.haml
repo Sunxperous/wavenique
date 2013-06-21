@@ -6,7 +6,7 @@
       = link_to @youtube.api_data.snippet.title, video_link_for(@youtube.video_id)
       = link_to @youtube.api_data.snippet.channelTitle, channel_link_for(@youtube.api_data.snippet.channelId)
   %section#primary_form.info-container
-
+    = render 'performances/form', type: 'youtube', id: @youtube.video_id
 
 -#
   <section id="youtube" class="main">

@@ -12,8 +12,8 @@ Vagrant::Application.routes.draw do
   end
 	resources :youtube, controller: :youtube, except: [:create, :new] do
 		member do
-			match '/create', as: :create, via: :post, action: :create
-			match '/new', as: :new, via: :get, action: :new
+			#match '/create', as: :create, via: :post, action: :create
+			#match '/new', as: :new, via: :get, action: :new
 		end
 	end
   namespace :tsunami do
@@ -26,6 +26,7 @@ Vagrant::Application.routes.draw do
   match 'tsunami', to: 'tsunami#index'
 	match 'signout', to: 'sessions#destroy'
   match 'search', to: 'youtube#search', via: :get
+  match 'modify/:type/:id', to: 'performances#modify', via: :put, as: :modify
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
