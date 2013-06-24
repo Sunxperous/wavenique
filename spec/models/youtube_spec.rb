@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Youtube do
   before do
     # Stub API-calling methods.
+    Youtube.any_instance.stub(:fill_site_info)
   end
   context '#database attributes' do
     it { should respond_to(:video_id) }
@@ -14,7 +15,6 @@ describe Youtube do
   end
   context '#methods' do
     it { should respond_to(:related) }
-    it { should respond_to(:modify) }
     it { should respond_to(:api_data) }
   end
   context '#associations' do

@@ -28,7 +28,7 @@ Spork.prefork do
     config.fixture_path = "#{::Rails.root}/spec/fixtures"
     config.use_transactional_fixtures = false 
     config.infer_base_class_for_anonymous_controllers = false
-    config.order = 22585 #--seed 1234
+    config.order = "random" #--seed 1234
 
     # Database cleaner.
     config.before(:suite) do

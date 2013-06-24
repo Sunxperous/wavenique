@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :youtube do
     sequence(:video_id) { |n| "qwertyuiop#{n}"[-11..-1] }
     sequence(:channel_id) { |n| "Channel #{n}" }
-
+    
     factory :youtube_with_perf do
       ignore do
         perf [{ a: 1, c: 1 }]
@@ -12,7 +12,7 @@ FactoryGirl.define do
         evaluator.perf.each do |perf|
           youtube.performances << FactoryGirl.build(
             :performance,
-            youtube: youtube,
+            wave: youtube,
             artist_count: perf[:a],
             comp_count: perf[:c]
           )

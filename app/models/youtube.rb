@@ -1,7 +1,7 @@
 class Youtube < ActiveRecord::Base
 	attr_accessible :video_id
   attr_accessor :new_content, :warnings
-	has_many :performances, inverse_of: :youtube
+	has_many :performances, inverse_of: :wave, as: :wave
   belongs_to :channel,
     class_name: 'User',
     foreign_key: 'channel_id',
@@ -11,6 +11,7 @@ class Youtube < ActiveRecord::Base
     presence: true,
     uniqueness: { case_sensitive: true },
     format: { with: /[a-zA-Z0-9_-]{11}/ }
+  before_validation :fill_site_info, on: :create
 	validates_presence_of :performances, :channel_id
 	validates_associated :performances
   scope :with_performances, includes(:performances => [:artists, :compositions])
@@ -124,6 +125,14 @@ class Youtube < ActiveRecord::Base
 			end
 		end
 	end
+
+  def fill_site_info
+    self.channel_id = GoogleAPI.youtube('videos', 'list', {
+      id: self.video_id,
+	  	part: 'snippet',
+			fields: 'items(snippet(channelId))'
+		}).items[0].snippet.channelId
+  end
 end
 
 

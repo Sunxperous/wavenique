@@ -25,12 +25,15 @@ class YoutubeController < ApplicationController
 	def show
 		@youtube = Youtube.with_performances.find_by_video_id(params[:id]) ||
       Youtube.new(video_id: params[:id])
-    render 'unavailable' unless
-      @youtube.api_data.present? &&
-      @youtube.api_data.status.embeddable &&
-      @youtube.api_data.status.privacyStatus == 'public'
-    @related = @youtube.related
-    @form_performance = Form::Performance.new 
+    #@related = @youtube.related
+    if (@youtube.api_data.present? &&
+    @youtube.api_data.status.embeddable &&
+    @youtube.api_data.status.privacyStatus == 'public')
+      @form_performance = Form::Performance.new if
+        @youtube.api_data.snippet.categoryId == '10'
+    else
+      render 'unavailable'
+    end
 	end
 
 	def create

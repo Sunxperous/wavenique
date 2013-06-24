@@ -5,6 +5,10 @@ def sign_in(user)
   visit '/callback/google/?code=sign_in'
 end
 
+def fill_autocomplete(selector, text)
+  page.execute_script %Q{$('#{ selector }').val('#{ text }').focus().keydown()}
+end
+
 shared_examples 'accessible by admins only' do
   describe 'redirects to root' do
     specify 'for non-admins' do

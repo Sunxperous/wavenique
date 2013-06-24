@@ -12,9 +12,10 @@ group 'u-tests' do # Unit tests
   guard 'rspec',
   cli: '--drb',
   all_after_pass: false,
-  spec_paths: ['spec/models', 'spec/lib'] do
+  spec_paths: ['spec/models', 'spec/lib', 'spec/complements'] do
     watch(%r{^lib/(.+)\.rb$}) { |m| "spec/lib/#{m[1]}_spec.rb" }
     watch(%r{^app/models/(.+)\.rb$}) { |m| "spec/models/#{m[1]}_spec.rb" }
+    watch(%r{^app/complements/(.+)\.rb$}) { |m| "spec/complements/#{m[1]}_spec.rb" }
 
     # General purpose watch.
     watch(%r{^spec/.+_spec\.rb$})

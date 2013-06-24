@@ -7,7 +7,12 @@ describe YoutubeController do
       status: OpenStruct.new(
         embeddable: true,
         privacyStatus: 'public'
-    )) }
+      ),
+      snippet: OpenStruct.new(
+        categoryId: '10'
+      )
+    ) }
+    Youtube.skip_callback :validation, :before, :fill_site_info
   end
   specify 'requests with invalid video id' do
     get :show, id: 'qwertyuiop%'
@@ -24,9 +29,6 @@ describe YoutubeController do
       end
       specify 'assigns @youtube' do
         expect(assigns(:youtube)).to eq(youtube)
-      end
-      specify 'assigns @related' do
-        expect(assigns(:related)).to_not eq(nil)
       end
       specify 'assigns @form_performance' do
         expect(assigns(:form_performance)).to_not eq(nil)

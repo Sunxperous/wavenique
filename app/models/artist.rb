@@ -19,10 +19,10 @@ class Artist < ActiveRecord::Base
     end
     # Return the original artist from the database.
     return Artist.find(artist.original) unless artist.new_record? 
-    recent = new_content[:artists].select { |n| n.name == artist.name }.last
+    recent = new_content[:a].select { |n| n.name == artist.name }.last
     # Return recent incoming, non-existent artist.
     return recent if recent.present?
-    new_content[:artists] << artist
+    new_content[:a] << artist
     # Return an entirely new artist.
     artist
 	end

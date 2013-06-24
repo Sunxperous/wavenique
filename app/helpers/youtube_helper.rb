@@ -4,13 +4,6 @@ module YoutubeHelper
     iframe_tag = '<iframe id="player" type="text/html" width="640" height="390" src="' + src + '" frameborder="0"></iframe>'
 	end
 
-	def form_performance_template
-		form_performance = Form::Performance.new
-		render 'form_performance',
-			count: Hash.new(-1),
-			performance: form_performance
-	end
-
   def add_edit_link_for(youtube)
   	link_to_if youtube.new_record?,
       'Add', new_youtube_path(youtube), remote: true do # Else...

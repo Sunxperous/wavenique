@@ -1,6 +1,6 @@
 class PerformancesController < ApplicationController
   def modify
-    p params
+    @form_performance = Form::Performance.new(params)
     render nothing: true
   end
 end

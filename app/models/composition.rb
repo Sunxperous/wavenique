@@ -10,11 +10,11 @@ class Composition < ActiveRecord::Base
     composition = self.where(id: id).first_or_initialize(title: title)
     # Return an existing composition from the database.
     return Composition.find(composition.original) unless composition.new_record?
-    recent = new_content[:compositions].select {
+    recent = new_content[:c].select {
       |n| n.title == composition.title }.last
     # Return recent incoming, non-existent composition.
     return recent if recent.present?
-    new_content[:compositions] << composition
+    new_content[:c] << composition
     # Return an entirely new composition.
     composition
 	end
