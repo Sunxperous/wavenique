@@ -25,6 +25,10 @@ module SessionsHelper
 		cookies.delete(:remember_token)
 	end
 
+  def admin?(user = current_user)
+    !user.nil? and user.admin?
+  end
+
 	def signed_in_user
 		unless signed_in?
 			redirect_to root_path

@@ -1,0 +1,13 @@
+-# Locals: performances
+
+%ol#performances
+  - performances.each do |p|
+    %li.performance
+      %ol.compositions
+        - p.compositions.each do |c|
+          %li.composition
+            = link_to c.title, composition_path(c)
+      %ol.artists
+        - p.artists.each do |a|
+          %li.artist
+            = link_to a.name, artist_path(a)

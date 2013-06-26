@@ -13,6 +13,7 @@ feature 'Form::Performance object', js: true do
   let!(:existing_a) { FactoryGirl.create(:artist, name: 'Lin Jun Jie') }
   let!(:existing_c) { FactoryGirl.create(:composition, title: 'Dismember') }
   background do
+    sign_in FactoryGirl.create(:user)
     visit youtube_path id: youtube.video_id
   end
   scenario 'shows on YouTube video page' do

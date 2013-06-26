@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe Performance do
   context '#methods' do
-    it { should respond_to(:define) }
-    it { should respond_to(:redefine) }
   end
   context '#associations' do
     it { should belong_to(:wave) }

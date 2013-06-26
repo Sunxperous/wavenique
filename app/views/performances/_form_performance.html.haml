@@ -3,7 +3,7 @@
     %p.fieldset-label Performance
     %fieldset.performance-title.subfieldset
       %div.subfieldset-label Titles
-      - performance[:c].each do |composition|
+      - performance.compositions.each do |composition|
         %fieldset.title-field.subsubfieldset
           = text_field_tag "p[#{ count['p'] }][c[#{ count['c'] += 1 }][t]]",
             composition[:title],
@@ -13,10 +13,10 @@
       %button.add-title(type="button"
         id="p[#{ count['p'] }]_add_title"
         data-p-id="#{ count['p'] }"
-        data-count="#{ performance[:c].length }") Add Title
+        data-count="#{ performance.compositions.length }") Add Title
     %fieldset.performance-artist.subfieldset
       %div.subfieldset-label Artists
-      - performance[:a].each do |artist|
+      - performance.artists.each do |artist|
         %fieldset.artist-field.subsubfieldset
           = text_field_tag "p[#{ count['p'] }][a[#{ count['a'] += 1 }][n]]",
             artist[:name],
@@ -26,4 +26,4 @@
       %button.add-artist(type="button"
         id="p[#{ count['p'] }]_add_artist"
         data-p-id="#{ count['p'] }"
-        data-count="#{ performance[:a].length }") Add Artist
+        data-count="#{ performance.artists.length }") Add Artist
