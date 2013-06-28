@@ -11,10 +11,9 @@ feature 'Google sign in', js: true do
       click_button 'Sign in'
     end
     scenario 'with denied access' do
-      if page.has_content?('No thanks')
-        click_button 'No thanks'
-        expect(current_path).to eq(root_path)
-      end
+      click_button 'No thanks' if page.has_content?('No thanks')
+      click_button 'Cancel' if page.has_content?('Cancel')
+      expect(current_path).to eq(root_path)
     end
     scenario 'with allowed access' do
       click_button 'Allow access' if page.has_content?('Allow access')

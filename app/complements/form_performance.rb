@@ -24,6 +24,7 @@ class Form::Performance
       return false if !changes?
     end
     cleanse_incoming_nils
+    return false if empty?
     wave.transaction do
       assign_performances(incoming[:p])
       wave.save
@@ -48,6 +49,12 @@ class Form::Performance
   def conflicted?
     result = incoming[:timestamp] != wave.updated_at.to_s
     errors[:conflicted] = "Someone else has modified this wave." if result
+    result
+  end
+
+  def empty?
+    result = incoming[:p].empty?
+    errors[:empty] = "There are no values submitted." if result
     result
   end
   

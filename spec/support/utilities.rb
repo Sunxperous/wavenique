@@ -9,6 +9,17 @@ def fill_autocomplete(selector, text)
   page.execute_script %Q{$('#{ selector }').val('#{ text }').focus().keydown()}
 end
 
+def select_autocomplete(text)
+  page.find('ul.ui-autocomplete', text: text) # Activates Capybara wait.
+  page.execute_script %Q{$('.ui-menu-item:contains("#{ text }")').find('a').click()}
+end
+
+def fill_and_select_autocomplete(selector, text)
+  fill_autocomplete(selector, text)
+  select_autocomplete(text)
+end
+
+
 shared_examples 'accessible by admins only' do
   describe 'redirects to root' do
     specify 'for non-admins' do

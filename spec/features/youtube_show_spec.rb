@@ -42,7 +42,6 @@ feature 'Youtube show', js: true do
       form = find('section.main').find('form')
       expect(form['action']).to eq("/modify/youtube/#{ youtube.video_id }")
     end
-    scenario 'links up to 15 related YouTube videos'
   end
   context 'for an existing video' do
     # Men Are All Like That by Kim Jong Kook, by MrSarangKpop7.
