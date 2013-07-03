@@ -18,13 +18,12 @@ class ArtistsController < ApplicationController
       redirect_to artist_path @artist.original_id
     end
     @performances = Performance.
-      joins("INNER JOIN performance_artists ON performances.id = performance_artists.performance_id").
-      joins("INNER JOIN artists ON performance_artists.artist_id = artists.id").
-      joins("INNER JOIN youtubes ON youtubes.id = performances.youtube_id").
-      where("artists.id = ?", params[:id]).
+      where("deleted_at IS NULL").
+      joins(performance_artists: :artist).
+      where(artists: { id: params[:id] }).
       order("created_at DESC").
       limit(100).
-      includes(:compositions, :artists, :youtube => :performances)
+      includes(:compositions, :artists, :wave => :performances)
   end
 
   def merge

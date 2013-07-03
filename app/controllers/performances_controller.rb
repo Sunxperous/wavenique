@@ -6,7 +6,10 @@ class PerformancesController < ApplicationController
     @wave = @form_performance.wave if result
     respond_to do |format|
       #format.html { redirect_to youtube_path(@form_performance.wave) }
-      format.js { render 'result' if result }
+      format.js do
+        (render 'result' and return) if result
+        render nothing: true
+      end
     end
   end
 

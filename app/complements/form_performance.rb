@@ -41,7 +41,7 @@ class Form::Performance
     end
     current_c = wave.performances.map { |p| p.composition_ids }
     current_a = wave.performances.map { |p| p.artist_ids }
-    result = incoming_c != current_c or incoming_a != current_a
+    result = (incoming_c != current_c or incoming_a != current_a)
     errors[:no_changes] = "There are no changes made." unless result
     result
   end

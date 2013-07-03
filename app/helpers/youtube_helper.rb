@@ -38,12 +38,12 @@ module YoutubeHelper
     else
       # details[:focus] = Youtube.
     end
-    if details[:performance].youtube.performances.count > 1
-      count = details[:performance].youtube.performances.count
+    if details[:performance].wave.performances.count > 1
+      count = details[:performance].wave.performances.count
       additional = "#{count - 1} other #{'performance'.pluralize(count - 1)}"
     end
     render 'youtube/infolink',
-      video_id: details[:performance].youtube.video_id,
+      video_id: details[:performance].wave.video_id,
       primary: primary,
       tags: details[:performance].tags.map(&:name).join(' '),
       with: with,

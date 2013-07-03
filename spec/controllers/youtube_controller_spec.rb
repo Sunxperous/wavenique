@@ -12,7 +12,6 @@ describe YoutubeController do
         categoryId: '10'
       )
     ) }
-    Youtube.skip_callback :validation, :before, :fill_site_info
   end
   specify 'requests with invalid video id' do
     get :show, id: 'qwertyuiop%'
@@ -42,6 +41,7 @@ describe YoutubeController do
     context 'for existing Youtube' do
       before do
         youtube.channel_id = 'channel_id'
+        youtube.stub(:fill_site_info) { true }
         youtube.save!
         controller.stub(:current_user) { FactoryGirl.create(:user) }
         get :show, id: youtube.video_id
