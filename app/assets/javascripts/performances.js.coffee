@@ -45,7 +45,7 @@ $ ->
         response($.map(data, (item) -> {
           label: item.name
           value: item.name
-          artist_id: item.id # To return artist.main when implemented.
+          artist_id: item.artist_id # To return artist.main when implemented.
         }))
     minLength: 2
     select: (event, ui) ->
@@ -73,7 +73,7 @@ $ ->
       cloned.find('button').data('p-id', count)
       cloned.removeClass('hidden')
     caller.data('count', count) # Replace button count data.
-    destination.before(cloned) # Insert cloned template.
+    destination.append(cloned) # Insert cloned template.
     cloned.find('input').first().focus()
     formPerformance.apply_interactions()
 
@@ -84,9 +84,9 @@ $ ->
     $('input.a-autocomplete').autocomplete(a_autocomplete).
       keyup(null_autocomplete)
     $('button').unbind('click')
-    $('button.add-title').click -> add_element($(this), $('.hidden').find('.title-field'), $(this))
-    $('button.add-artist').click -> add_element($(this), $('.hidden').find('.artist-field'), $(this))
-    $('button#add_performance').click -> add_element($(this), $('.hidden').find('.form-performance-container'), $(this))
+    $('button.add-title').click -> add_element($(this), $('.hidden').find('.title-fields'), $(this).parent().siblings('fieldset'))
+    $('button.add-artist').click -> add_element($(this), $('.hidden').find('.artist-fields'), $(this).parent().siblings('fieldset'))
+    $('button#add_performance').click -> add_element($(this), $('.hidden').find('.form-performance-container'), $(this).siblings('.form-performance-container'))
     $('#close').click ->
       $('#form_container').empty()
       $('#warnings_errors').empty()

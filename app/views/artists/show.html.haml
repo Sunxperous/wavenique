@@ -2,6 +2,7 @@
 
 %section#artist
   %h1#name= @artist.name
+  = link_to 'Edit Aliases', artist_aliases_path(@artist)
   %ul#options.info-container
     %li
       Merge into

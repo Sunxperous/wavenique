@@ -7,6 +7,9 @@ require 'capybara/poltergeist'
 #require 'spork/ext/ruby-debug'
 
 # Capybara.
+Capybara.register_driver :poltergeist do |app|
+  Capybara::Poltergeist::Driver.new(app, phantomjs_logger: true)
+end
 Capybara.javascript_driver = :poltergeist
 Capybara.run_server = true
 Capybara.server_port = 8000

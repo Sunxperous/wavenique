@@ -15,7 +15,7 @@ class Youtube < ActiveRecord::Base
 	validates_presence_of :performances, :channel_id
 	validates_associated :performances
   scope :with_performances, includes(:performances => [:artists, :compositions])
-  alias_attribute :reference_id, :video_id
+  alias_attribute :reference_id, :video_id # Used in Wave module.
 
 	def to_param
 		video_id

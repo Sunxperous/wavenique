@@ -9,6 +9,7 @@ Vagrant::Application.routes.draw do
   resources :artists, only: [:index, :show] do
     match '/find', on: :collection, action: :find
     match '/merge', via: :put, on: :member, action: :merge
+    resources :aliases, only: [:index, :new, :create], controller: 'artist_aliases'
   end
 	resources :youtube, controller: :youtube, except: [:create, :new] do
 		member do

@@ -11,18 +11,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130624105625) do
+ActiveRecord::Schema.define(:version => 20130707125012) do
+
+  create_table "artist_aliases", :force => true do |t|
+    t.string   "name"
+    t.integer  "artist_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "proper"
+  end
+
+  add_index "artist_aliases", ["artist_id", "name"], :name => "index_artist_aliases_on_artist_id_and_name", :unique => true
+  add_index "artist_aliases", ["artist_id"], :name => "index_artist_aliases_on_artist_id"
+  add_index "artist_aliases", ["name"], :name => "index_artist_aliases_on_name"
 
   create_table "artists", :force => true do |t|
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
-    t.string   "name"
-    t.boolean  "proper"
     t.integer  "original_id"
     t.string   "youtube_channel_id"
   end
 
-  add_index "artists", ["name"], :name => "index_artists_on_name"
   add_index "artists", ["original_id"], :name => "index_artists_on_original_id"
   add_index "artists", ["youtube_channel_id"], :name => "index_artists_on_youtube_channel_id", :unique => true
 

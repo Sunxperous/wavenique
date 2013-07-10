@@ -37,32 +37,19 @@ describe Form::Performance do
           Youtube.any_instance.stub(:save) { true }
         end
         let(:youtube) { FactoryGirl.create(:youtube_with_perf) }
-        let(:form_performance) { Form::Performance.new(
-          HashWithIndifferentAccess.new(youtube.wave_to_hash)
-        ) }
+        let(:form_performance) { Form::Performance.new(youtube.reload.wave_to_hash) }
         specify 'no changes' do
           form_performance.process
-          unless form_performance.errors.has_key?(:no_changes)
-            p form_performance.errors
-            p form_performance.incoming[:timestamp]
-            p form_performance.wave.updated_at.to_s
-          end
           expect(form_performance.errors).to have_key(:no_changes)
         end
         specify 'timestamp conflict' do
           form_performance.incoming[:timestamp] = nil
           form_performance.process
-          p form_performance.errors unless form_performance.errors.has_key?(:conflicted)
           expect(form_performance.errors).to have_key(:conflicted)
         end
         specify 'empty parameters' do
           form_performance.incoming[:p] = { }
           form_performance.process
-          unless form_performance.errors.has_key?(:empty)
-            p form_performance.errors
-            p form_performance.incoming[:timestamp]
-            p form_performance.wave.updated_at.to_s
-          end
           expect(form_performance.errors).to have_key(:empty)
         end
       end

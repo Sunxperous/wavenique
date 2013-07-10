@@ -55,6 +55,7 @@ feature 'Form::Performance object', js: true do
       expect(form).to have_field('p_1_a_1_n', type: 'text', with: 'Bii')
     end
   end
+
   context 'submission' do
     describe 'for new wave' do
       background do
@@ -88,16 +89,10 @@ feature 'Form::Performance object', js: true do
         click_button 'Submit'
         sleep(3)
       end
-      scenario 'removes the form' do
+      scenario 'changes the form and performance info elements' do
         expect(find('section.main')).to_not have_selector('form')
-      end
-      scenario 'retains existing artist link' do
         expect(page).to have_link('Bii', href: artist_path(bii), count: 4)
-      end
-      scenario 'retains existing composition link' do
         expect(page).to have_link('七里香', href: composition_path(qilixiang))
-      end
-      scenario 'repeated values have the same link' do
         liangwenyin_url = page.find_link('梁文音', match: :first, exact: true)[:href]
         expect(page).to have_link('梁文音', href: liangwenyin_url, count: 3)
       end
@@ -109,21 +104,18 @@ feature 'Form::Performance object', js: true do
         perf: [{ a: ['Wrong Kim Jong Kook'],
           c: ['Men Are All Like That Incorrect'] }]
       ) }
+      let!(:kimjongkook) { FactoryGirl.create(:artist, name: 'Kim Jong Kook') }
       background do
         sign_in FactoryGirl.create(:admin)
         visit youtube_path id: youtube.video_id
         fill_in 'p_1_c_1_t', with: 'Men Are All Like That'
-        fill_in 'p_1_a_1_n', with: 'Kim Jong Kook'
+        fill_and_select_autocomplete '#p_1_a_1_n', 'Kim Jong Kook'
         click_button 'Submit'
         sleep(3)
       end
-      scenario 'removes the form' do
+      scenario 'changes the form and performance info elements' do
         expect(find('section.main')).to_not have_selector('form')
-      end
-      scenario 'has new artist link' do
-        expect(page).to have_link('Kim Jong Kook', exact: true)
-      end
-      scenario 'has new composition link' do
+        expect(page).to have_link('Kim Jong Kook', href: artist_path(kimjongkook), exact: true)
         expect(page).to have_link('Men Are All Like That', exact: true)
       end
     end

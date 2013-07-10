@@ -11,7 +11,7 @@
     <main>
       <%= yield %>
     </main>
-    <% if Rails.env.development? %>
+    <% if Rails.env.development? and false %>
       <aside id="debug">
         <%= yield :debug %>
         <%= debug params if false %>

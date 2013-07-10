@@ -1,29 +1,37 @@
-%div.form-performance-container{ id: "p[#{ count['p'] += 1 }]" }
-  %fieldset.form-performance
+%div.form-performance-container
+  %fieldset.form-performance{ id: "p[#{ count['p'] += 1 }]" }
     %p.fieldset-label Performance
+
     %fieldset.performance-title.subfieldset
-      %div.subfieldset-label Titles
-      - performance.compositions.each do |composition|
-        %fieldset.title-field.subsubfieldset
-          = text_field_tag "p[#{ count['p'] }][c[#{ count['c'] += 1 }][t]]",
-            composition[:title],
-            class: 'c-autocomplete'
-          = hidden_field_tag "p[#{ count['p'] }][c[#{ count['c'] }][id]]",
-            composition[:id]
-      %button.add-title(type="button"
-        id="p[#{ count['p'] }]_add_title"
-        data-p-id="#{ count['p'] }"
-        data-count="#{ performance.compositions.length }") Add Title
+      %div.label Titles
+      %fieldset.subsubfieldset
+        - performance.compositions.each do |composition|
+          %fieldset.title-fields{ id: "p[#{ count['p'] }]_titles" }
+            = text_field_tag "p[#{ count['p'] }][c[#{ count['c'] += 1 }][t]]",
+              composition.title,
+              class: 'c-autocomplete' + (composition.id.present? ? ' existing' : '')
+            = hidden_field_tag "p[#{ count['p'] }][c[#{ count['c'] }][id]]",
+              composition.original
+
+      %div.button-wrap
+        %button.add-title(type="button"
+          id="p[#{ count['p'] }]_add_title"
+          data-p-id="#{ count['p'] }"
+          data-count="#{ performance.compositions.length }") Add Title
+
     %fieldset.performance-artist.subfieldset
-      %div.subfieldset-label Artists
-      - performance.artists.each do |artist|
-        %fieldset.artist-field.subsubfieldset
-          = text_field_tag "p[#{ count['p'] }][a[#{ count['a'] += 1 }][n]]",
-            artist[:name],
-            class: 'a-autocomplete'
-          = hidden_field_tag "p[#{ count['p'] }][a[#{ count['a'] }][id]]",
-            artist[:id]
-      %button.add-artist(type="button"
-        id="p[#{ count['p'] }]_add_artist"
-        data-p-id="#{ count['p'] }"
-        data-count="#{ performance.artists.length }") Add Artist
+      %div.label Artists
+      %fieldset.subsubfieldset
+        - performance.artists.each do |artist|
+          %fieldset.artist-fields{ id: "p[#{ count['p'] }]_artists" }
+            = text_field_tag "p[#{ count['p'] }][a[#{ count['a'] += 1 }][n]]",
+              artist.name,
+              class: 'a-autocomplete' + (artist.id.present? ? ' existing' : '')
+            = hidden_field_tag "p[#{ count['p'] }][a[#{ count['a'] }][id]]",
+              artist.original
+            
+      %div.button-wrap
+        %button.add-artist(type="button"
+          id="p[#{ count['p'] }]_add_artist"
+          data-p-id="#{ count['p'] }"
+          data-count="#{ performance.artists.length }") Add Artist
