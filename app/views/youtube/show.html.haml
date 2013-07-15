@@ -1,12 +1,8 @@
-%section#youtube.main
-  %section#primary_video
+%main
+  %section.wave
     = raw iframe_embed @youtube.video_id
-  %section#primary_info.info-container
-    %section#performance_info
-      - unless @youtube.new_record?
-        = render 'performances', performances: @youtube.performances
-      - else
-        = link_to @youtube.api_data.snippet.title, video_link_for(@youtube.video_id)
-      = link_to @youtube.api_data.snippet.channelTitle, channel_link_for(@youtube.api_data.snippet.channelId)
-  - if @form_performance.present?
-    = render 'performances/form', type: 'youtube', id: @youtube.video_id, wave: @youtube
+  %section.primary
+    = performance_info_for @youtube
+  %section.primary
+    = link_to @youtube.api_data.snippet.channelTitle, channel_link_for(@youtube.api_data.snippet.channelId)
+  = performance_form_for @youtube, @form_performance

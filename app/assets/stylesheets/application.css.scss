@@ -10,16 +10,19 @@
  *
  *= require reset
  *= require_self
- *= require_tree .
+ * require_tree .
+ *= require wave
+ *= require youtube
  */
 
 @import "base";
 
 body {
-	background-color: $background;
+	background-color: $color-background;
 	font-family: $family; 
-  font-size: 14px;
-	color: $primary;
+  font-size: $font-size;
+	color: $color-primary;
+  min-width: 680px;
 }
 a {
   &:hover, &:link, &:active, &:visited {
@@ -28,33 +31,29 @@ a {
   }
 }
 header {
-  margin: 10px 10px 5px 10px;
-  background-color: $foreground;
-  nav {
-    padding: 5px 10px;
-    display: inline-block;
-    a {
-      line-height: 1.3em;
-      margin: 0px 10px;
-    }
+  padding: 8px 0;
+  background-color: $color-foreground;
+  white-space: nowrap;
+}
+nav {
+  display: block;
+  a, form {
+    margin: 0px 12px;
   }
 }
-#logo {
-  color: $highlight;
-  padding: 10px;
-  font-size: 2em;
+.logo {
+  color: $color-highlight;
+  padding: 0 20px 0 20px;
+  font-size: $font-size-prominent;
   display: inline-block;
 }
 main {
   display: block;
-	margin: 10px 10px;
-}
-.main {
+  padding: 16px;
   float: left;
-  margin-bottom: 10px;
 }
 aside, pre, code {
-  padding: 1em;
+  padding: 4px;
 	display: block;
 	clear: both;
 	font-family: monospace;
@@ -63,20 +62,27 @@ aside, pre, code {
 }
 input, button {
 	color: black;
+  font-family: $family;
 }
 h1 {
-  font-size: 2em;
-  margin: 0.5em;
+  font-size: $font-size-prominent;
+  margin: 8px;
 }
 form#search {
   display: inline;
 }
-.info-container {
-  margin-top: 5px;
-  background-color: $foreground;
-  padding: 10px;
+section.primary {
+  background-color: $color-foreground;
+  margin-top: 8px;
+  padding: 16px;
 }
-.hidden {
+.logo {
+  padding-top: 4px;
+  font-size: $font-size-prominent;
+}
+
+// Miscellaneous
+.hidden { // For hiding form performance template.
   display: none;
   visibility: hidden;
 }

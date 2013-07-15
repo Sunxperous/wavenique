@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+%html
+  %head
+    %title= content_for?(:title) ? content_for(:title) : "Wavenique"
+    = stylesheet_link_tag "application", media: "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    = render 'shared/nav'
+    = yield
+    - if Rails.env.development? and false
+      %aside#debug
+        = yield :debug
+        = debug params if false
+        = debug session if false
+        = debug current_user if false

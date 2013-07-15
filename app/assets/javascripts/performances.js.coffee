@@ -17,7 +17,7 @@ $ ->
     ignoreKeys = [13, 37, 38, 39, 40, 27, 9, 16, 17, 18, 19, 20, 33, 34, 35, 36, 45]
     return for key in ignoreKeys when event.which is key
     # Else, null autocomplete.
-    $(this).removeClass('existing')
+    $(this).removeClass('formp-existing')
     marker = $(getMarkerField($(this).attr('id')))
     marker.val('')
 
@@ -33,7 +33,7 @@ $ ->
     minLength: 2
     select: (event, ui) ->
       if ui.item
-        $(event.target).addClass('existing')
+        $(event.target).addClass('formp-existing')
         marker = $(getMarkerField(event.target.id))
         marker.val(ui.item.composition_id)
     autoFocus: true
@@ -50,14 +50,14 @@ $ ->
     minLength: 2
     select: (event, ui) ->
       if ui.item
-        $(event.target).addClass('existing')
+        $(event.target).addClass('formp-existing')
         marker = $(getMarkerField(event.target.id))
         marker.val(ui.item.artist_id)
     autoFocus: true
 
-  # Replace children indexes.
+  # Replace indexes of children and self.
   replace_indexes = (element, pId, elementId) ->
-    toReplace = $(element).html().replace(/((c|a)(_|\[))[0-9]+/g, "$1" + elementId)
+    toReplace = $(element).wrap('<div />').parent().html().replace(/((c|a)(_|\[))[0-9]+/g, "$1" + elementId)
     toReplace = toReplace.replace(/(p(_|\[))[0-9]+/g, "$1" + pId)
     element.html(toReplace)
 
@@ -74,21 +74,20 @@ $ ->
       cloned.removeClass('hidden')
     caller.data('count', count) # Replace button count data.
     destination.append(cloned) # Insert cloned template.
-    cloned.find('input').first().focus()
+    new_field = cloned.find('input').first()
+    cloned.children().first().unwrap() # Remove parent p[0] element.
+    new_field.focus()
     formPerformance.apply_interactions()
 
   # Apply methods to respective text inputs.
   window.formPerformance.apply_interactions = ->
-    $('input.c-autocomplete').autocomplete(c_autocomplete).
+    $('input.formp-title-autocomplete').autocomplete(c_autocomplete).
       keyup(null_autocomplete)
-    $('input.a-autocomplete').autocomplete(a_autocomplete).
+    $('input.formp-artist-autocomplete').autocomplete(a_autocomplete).
       keyup(null_autocomplete)
     $('button').unbind('click')
-    $('button.add-title').click -> add_element($(this), $('.hidden').find('.title-fields'), $(this).parent().siblings('fieldset'))
-    $('button.add-artist').click -> add_element($(this), $('.hidden').find('.artist-fields'), $(this).parent().siblings('fieldset'))
-    $('button#add_performance').click -> add_element($(this), $('.hidden').find('.form-performance-container'), $(this).siblings('.form-performance-container'))
-    $('#close').click ->
-      $('#form_container').empty()
-      $('#warnings_errors').empty()
+    $('button.formp-add-title').click -> add_element($(this), $('.hidden').find('.formp-title-group'), $(this).parent().siblings('fieldset'))
+    $('button.formp-add-artist').click -> add_element($(this), $('.hidden').find('.formp-artist-group'), $(this).parent().siblings('fieldset'))
+    $('button#formp_add_performance').click -> add_element($(this), $('.hidden').find('.formp-performances-wrap').children(), $(this).siblings('.formp-performances-wrap'))
 
   window.formPerformance.apply_interactions()

@@ -1,72 +1,63 @@
 @import "base";
 
-$button-height: 18px;
-// form
-.error {
-  color: $error;
-}
-.warning {
-  color: $warning;
-}
-fieldset.hidden {
-  visibility: hidden;
-  display: none;
-}
-.label {
-  text-transform: uppercase;
-  font-size: 11px;
-  color: $form-label;
-}
-p.fieldset-label {
-  @extend .label;
-  line-height: 2em;
-}
-fieldset.subfieldset {
-  margin-bottom: 5px;
+// Form Performance (formp)
+$formp-button-height: 24px;
+$formp-text-background: #aaa;
+$formp-text: #333;
+$formp-label: $color-primary;
+$formp-highlight: $color-background;
+$formp-green-highlight: #696;
+$formp-button-text-color: desaturate($link-active, 30%);
+$formp-button-background: #1f1f1f;
+
+fieldset.formp-subfieldset {
+  margin-bottom: 4px;
   position: relative;
 }
-div.label {
-  width: 100px;
-  display: inline-block;
-  //border-right: 3px solid $form-highlight;
-  line-height: 1.5em;
-}
-input[type="text"] {
-  margin: 1px;
-  padding: 0px 3px;
-  background-color: $form-text-background;
-  border: 2px solid $form-text-background;
-  width: 200px;
-  height: 1.5em;
-}
-div.button-wrap {
-  margin-top: -$button-height;
-  width: 100px;
-  text-align: right;
-  border-right: 3px solid $form-highlight;
-  button {
-    vertical-align: bottom;
+  .formp-label {
+    text-transform: uppercase;
+    font-size: 12px;
+    color: $formp-label;
+    width: 100px;
+    display: inline-block;
   }
+  fieldset.formp-subsubfieldset {
+    display: inline-block;
+    vertical-align: top;
+    min-height: 36px;
+    margin-left: 2px;
+    padding-left: 4px;
+    border-left: 2px solid $formp-highlight;
+  }
+  div.formp-button-wrap {
+    margin-top: -$formp-button-height;
+    width: 100px;
+    text-align: right;
+    button {
+      vertical-align: bottom;
+    }
+  }
+input[type="text"] {
+  margin: 2px;
+  font-size: 14px;
+  padding: 0px 4px;
+  background-color: $formp-text-background;
+  border: 2px solid $formp-text-background;
+  width: 200px;
+  height: $formp-button-height;
+  line-height: $formp-button-height;
 }
 button, input[type="submit"] {
-  height: $button-height;
+  height: $formp-button-height;
   margin: 0px;
   text-transform: uppercase;
-  font-size: 10px;
-  background: $form-button-background; 
-  color: $form-button-text;
+  font-size: 12px;
+  background-color: $formp-button-background; 
+  color: $formp-button-text-color;
   border: 0px;
 }
-fieldset.subsubfieldset {
-  display: inline-block;
-  vertical-align: top;
-  min-height: 35px;
-  margin-left: 2px;
-  padding-left: 5px;
-  border-left: 3px solid $form-highlight;
-}
-input.existing {
-  border: 2px solid $form-green-highlight;
+input.formp-existing {
+  border: 2px solid $formp-green-highlight;
 }
 
 // jQuery UI Autocomplete
@@ -80,10 +71,10 @@ input.existing {
 }
 .ui-menu-item {
   cursor: pointer;
+  font-size: 14px;
   padding: 2px;
-  line-height: 1.4;
   a {
-    color: #333;
+    color: $color-foreground;
     display: block;
     border: 4px solid transparent;
   }
@@ -92,3 +83,4 @@ input.existing {
   background-color: #888;
   border: 4px solid #888;
 }
+

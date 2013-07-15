@@ -6,24 +6,6 @@
 
 
 // #youtube-info
-.performance {
-  margin-bottom: 10px;
-}
-.compositions, .artists {
-}
-.composition {
-  font-size: 1.2em;
-  color: #ccc;
-}
-.artist {
-  font-size: 1em;
-  line-height: 1.1em;
-  color: #ccc;
-}
-.conjunction, .uploader {
-  font-size: 0.8em;
-  line-height: 1em;
-}
 // .infolink
 .infolink {
   vertical-align: top;
@@ -42,7 +24,7 @@
   vertical-align: top;
   width: 300px;
 }
-.primary {
+p.primary {
   font-size: 1em;
 }
 ul#related {
@@ -50,7 +32,7 @@ ul#related {
   margin-left: 10px;
   width: 480px;
 }
-.primary, .with, .additional {
+p.primary, .with, .additional {
   height: 1.3em;
   overflow: hidden;
   text-overflow: ellipsis;

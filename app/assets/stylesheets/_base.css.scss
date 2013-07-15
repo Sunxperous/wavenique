@@ -1,17 +1,16 @@
-$background: #222;
-$foreground: #444;
-$family: "Tahoma";
+@import url(http://fonts.googleapis.com/css?family=Galdeano);
 
-$primary: #ddd;
-$highlight: #9cf;
-$warning: #993;
-$error: #933;
+$color-background: #1b1b1b;
+$color-foreground: #444;
+$color-primary: #ddd;
+$color-highlight: #9cf;
+$color-warning: #993;
+$color-error: #933;
+
+$family: "Galdeano", sans-serif;
+
+$font-size: 16px;
+$font-size-prominent: 24px;
+
 $link-active: #9cf;
 
-$form-text-background: #aaa;
-$form-text: #333;
-$form-label: $primary;
-$form-highlight: $background;
-$form-green-highlight: #696;
-$form-button-text: desaturate($link-active, 30%);
-$form-button-background: #1f1f1f;

@@ -1,13 +1,16 @@
-%section#primary_form.info-container
+%section#formp.primary
   %div.hidden
-    = form_performance_template
-  = form_tag modify_path(type: type, id: id), method: :put, remote: true do
-    = hidden_field_tag 'timestamp', wave.updated_at
-    - count = Hash.new(0)
-    - wave.performances.each do |performance|
-      = render 'performances/form_performance',
-        performance: performance,
-        count: count
-    %button#add_performance(type='button'
+    %div.formp-performances-wrap
+      = form_performance_template
+  = form_tag modify_path(type: wave.class.to_s.downcase, id: wave.reference_id),
+    method: :put,
+    remote: true do
+    = hidden_field_tag 'timestamp', wave.updated_at.to_s
+    %div.formp-performances-wrap
+      = render partial: 'performances/form_performance',
+        collection: wave.performances,
+        as: 'performance',
+        locals: { count: count }
+    %button#formp_add_performance(type='button'
       data-count="#{ wave.performances.length }") Add performance
     = submit_tag 'Submit', disable_with: 'Submitting...'
