@@ -8,7 +8,7 @@ class ArtistAliasesController < ApplicationController
   def create
     artist = Artist.find(params[:artist_id])
     result = artist.aliases.create(name: params[:new_alias])
-    @name = result.name
+    @name = result.name if result.persisted?
     respond_to do |format|
       format.js { render 'create' if result }
     end

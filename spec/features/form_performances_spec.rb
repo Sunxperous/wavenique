@@ -15,12 +15,12 @@ feature 'Form::Performance object', js: true do
   scenario 'shows on YouTube video page' do
     sign_in FactoryGirl.create(:user)
     visit youtube_path id: youtube.video_id
-    expect(find('section.main')).to have_selector('form')      
-    form = find('section.main').find('form')
+    expect(find('main')).to have_selector('form')      
+    form = find('main').find('form')
     expect(form['action']).to eq("/modify/youtube/#{youtube.video_id}")
   end
   context 'elements' do
-    let(:form) { find('section.main').find('form') }
+    let(:form) { find('main').find('form') }
     background do
       sign_in FactoryGirl.create(:user)
       visit youtube_path id: youtube.video_id      
@@ -38,7 +38,7 @@ feature 'Form::Performance object', js: true do
       expect(form).to have_field('p_1_a_2_n', type: 'text', with: '')
     end
     scenario 'adds a performance fieldset' do
-      click_button 'add_performance'
+      click_button 'formp_add_performance'
       expect(form).to have_field('p_2_c_1_t', type: 'text', with: '')
       expect(form).to have_field('p_2_a_1_n', type: 'text', with: '')
     end
@@ -61,7 +61,7 @@ feature 'Form::Performance object', js: true do
       background do
         sign_in FactoryGirl.create(:user)
         visit youtube_path id: youtube.video_id
-        8.times { click_button 'add_performance' }
+        8.times { click_button 'formp_add_performance' }
         fill_in 'p_1_c_1_t', with: 'Sorry, Sorry'
         fill_and_select_autocomplete '#p_1_a_1_n', 'Bii'
         fill_in 'p_2_c_1_t', with: 'First Love'
@@ -90,7 +90,7 @@ feature 'Form::Performance object', js: true do
         sleep(3)
       end
       scenario 'changes the form and performance info elements' do
-        expect(find('section.main')).to_not have_selector('form')
+        expect(find('main')).to_not have_selector('form')
         expect(page).to have_link('Bii', href: artist_path(bii), count: 4)
         expect(page).to have_link('七里香', href: composition_path(qilixiang))
         liangwenyin_url = page.find_link('梁文音', match: :first, exact: true)[:href]
@@ -114,7 +114,7 @@ feature 'Form::Performance object', js: true do
         sleep(3)
       end
       scenario 'changes the form and performance info elements' do
-        expect(find('section.main')).to_not have_selector('form')
+        expect(find('main')).to_not have_selector('form')
         expect(page).to have_link('Kim Jong Kook', href: artist_path(kimjongkook), exact: true)
         expect(page).to have_link('Men Are All Like That', exact: true)
       end

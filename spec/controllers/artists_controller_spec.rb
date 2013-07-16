@@ -2,19 +2,37 @@ require 'spec_helper'
 
 describe ArtistsController do
   context 'GET #find' do
-    let!(:names) { FactoryGirl.create_list(:artist, 11)[0..9].map(&:aliases).flatten }
+    let!(:artists) do
+      a = FactoryGirl.create(:artist, name: 'Gary')
+      b = FactoryGirl.create(:artist, name: 'Freddy')
+      [a, b]
+    end
+    before do
+      FactoryGirl.create(:artist_alias, name: 'Garie', artist: artists[0])
+      FactoryGirl.create(:artist_alias, name: 'Gardner', artist: artists[1])
+    end
+    let!(:json) do
+      Artist.
+        joins(:aliases).
+        where(["artist_aliases.name ILIKE ?", "%gar%"]).
+        uniq.
+        order('artists.id').
+        limit(10).
+        as_json(only: [:id], methods: [:name]).
+        each(&:stringify_keys!)
+    end
     specify 'assigns @artists' do
-      get :find, name: 'Name'
-      expect(assigns(:names)).to match_array(names)
+      get :find, name: 'Gar'
+      expect(assigns(:json)).to eq(json)
     end
     specify 'does not render html' do
-      get :find, name: 'Name'
+      get :find, name: 'Gar'
       expect(response.status).to eq(406)
     end
     specify 'renders json' do
-      get :find, name: 'Name', format: :json
+      get :find, name: 'Gar', format: :json
       expect(response).to be_success
-      expect(response.body).to eq(names.to_json)
+      expect(response.body).to eq(json.to_json)
     end
   end
 

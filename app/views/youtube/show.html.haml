@@ -1,7 +1,7 @@
 %main
   %section.wave
     = raw iframe_embed @youtube.video_id
-  %section.primary
+  %section#performance_info.primary
     = performance_info_for @youtube
   %section.primary
     = link_to @youtube.api_data.snippet.channelTitle, channel_link_for(@youtube.api_data.snippet.channelId)

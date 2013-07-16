@@ -19,11 +19,11 @@ class Form::Performance
   end
 
   def process
+    cleanse_incoming_nils
     if !wave.new_record?
       return false if conflicted?
       return false if !changes?
     end
-    cleanse_incoming_nils
     return false if empty?
     wave.transaction do
       assign_performances(incoming[:p])

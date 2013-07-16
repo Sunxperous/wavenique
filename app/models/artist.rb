@@ -3,7 +3,11 @@ class Artist < ActiveRecord::Base
   attr_writer :name
 	has_many :performance_artists
 	has_many :performances, through: :performance_artists
-  has_many :aliases, class_name: 'ArtistAlias'
+  has_many :aliases, class_name: 'ArtistAlias' do
+    def proper 
+      where(artist_id: proxy_association.owner.id).order('proper DESC').limit(1).first
+    end
+  end
   belongs_to :youtube_user, class_name: 'User', primary_key: 'youtube_channel', foreign_key: 'youtube_channel_id'
   validates :youtube_channel_id, uniqueness: true, allow_nil: true
   validates :aliases, presence: true
@@ -21,7 +25,7 @@ class Artist < ActiveRecord::Base
   end
 
   def name
-    return aliases.order('proper DESC').first.name if aliases.present?
+    return aliases.proper.name unless new_record?
     @name ||= ''
   end
 
@@ -29,7 +33,7 @@ class Artist < ActiveRecord::Base
   def add_alias
     if @name.present? and aliases.empty?
       artist_alias = ArtistAlias.new(name: name)
-      artist_alias.proper = true
+      artist_alias.proper = 100
       aliases << artist_alias
     end
   end

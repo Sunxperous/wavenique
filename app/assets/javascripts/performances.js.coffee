@@ -45,7 +45,7 @@ $ ->
         response($.map(data, (item) -> {
           label: item.name
           value: item.name
-          artist_id: item.artist_id # To return artist.main when implemented.
+          artist_id: item.id # To return artist.main when implemented.
         }))
     minLength: 2
     select: (event, ui) ->

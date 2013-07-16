@@ -1,9 +1,15 @@
 class ArtistsController < ApplicationController
 	def find 
-    @names = ArtistAlias.where(["name ILIKE ?", "%#{params[:name]}%"]).limit(10).all
+    artists = Artist.
+      joins(:aliases).
+      where(["artist_aliases.name ILIKE ?", "%#{params[:name]}%"]).
+      uniq.
+      order('artists.id').
+      limit(10)
+    @json = artists.as_json(only: [:id], methods: [:name])
 
     respond_to do |format|
-      format.json { render json: @names }
+      format.json { render json: @json }
     end
 	end
   

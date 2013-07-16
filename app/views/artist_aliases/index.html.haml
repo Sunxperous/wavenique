@@ -1,9 +1,12 @@
-%h1= @aliases.first.name
-%ol
-  - @aliases[1..-1].each do |a|
-    %li= a.name
-= form_tag artist_aliases_path(artist_id: @artist.id), remote: true do
-  = text_field_tag 'new_alias'
-  = submit_tag 'Submit', disable_with: 'Submitting...'
+%main
+  %section#artist.primary
+    %h1= @aliases.first.name
+  %section#aliases.primary
+    %ol
+      - @aliases[1..-1].each do |a|
+        %li= a.name
+    = form_tag artist_aliases_path(artist_id: @artist.id), remote: true do
+      = text_field_tag 'new_alias'
+      = submit_tag 'Submit', disable_with: 'Submitting...'
 - content_for :debug do
   -# debug @aliases

@@ -38,8 +38,8 @@ feature 'Youtube show', js: true do
       )
     end
     scenario 'shows the form to add performances' do
-      expect(find('section.main')).to have_selector('form')      
-      form = find('section.main').find('form')
+      expect(find('main')).to have_selector('form')      
+      form = find('main').find('form')
       expect(form['action']).to eq("/modify/youtube/#{ youtube.video_id }")
     end
   end
@@ -70,7 +70,7 @@ feature 'Youtube show', js: true do
       )
     end
     scenario 'does not show the form to add performances' do
-      expect(find('section.main')).to_not have_selector('form')
+      expect(find('main')).to_not have_selector('form')
     end
   end
 end

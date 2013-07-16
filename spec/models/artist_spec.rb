@@ -27,12 +27,12 @@ describe Artist do
       end
     end
     
-    describe '.proper_name' do
+    describe '.name' do
       specify 'returns the most proper alias' do
         artist = FactoryGirl.create(:artist, name: '2nd')
         most_proper_alias = FactoryGirl.create(
           :artist_alias, name: 'Most', artist: artist, proper: 101)
-        expect(artist.name).to eq('Most')
+        expect(artist.reload.name).to eq('Most')
       end
     end
   end
