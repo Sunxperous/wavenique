@@ -1,20 +1,16 @@
 - title @artist.name
 
-%section#artist
-  %h1#name= @artist.name
-  = link_to 'Edit Aliases', artist_aliases_path(@artist)
-  %ul#options.info-container
-    %li
-      Merge into
-      = form_tag merge_artist_path, method: :put
-      = text_field_tag :target_value, '', id: 'artist_merge'
-      = hidden_field_tag :target_id
-      = submit_tag 'Merge', disabled: true
-  %ul
-    - @performances.each do |performance|
-      %li
-        = generate_infolink performance: performance, focus: 'composition'
+%main
+  %section.primary
+    %h1#name= @artist.name
+    = link_to 'Edit Aliases', artist_aliases_path(@artist)
+  %section.primary
+    %ul
+      - @infolinks.each do |infolink|
+        %li
+          = link_to polymorphic_path(infolink.wave) do
+            = infolink.title
 
-- content_for :debug do
-  = debug @performances if false
-  = debug @artist if 1
+  - content_for :debug do
+    = debug @performances if false
+    = debug @artist if 1

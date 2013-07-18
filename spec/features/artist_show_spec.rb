@@ -18,7 +18,7 @@ feature 'Artist show', js: true do
     expect(page).to have_text(artist.name)
   end
   scenario 'displays the related performances' do
-    expect(page).to have_css('div.infolink', count: 5)
+    expect(page).to have_css('li', count: 5)
   end
   
   scenario 'has a link to edit aliases' do

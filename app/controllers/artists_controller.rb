@@ -23,13 +23,7 @@ class ArtistsController < ApplicationController
     if @artist.original_id.present? and @artist.original_id != @artist.id
       redirect_to artist_path @artist.original_id
     end
-    @performances = Performance.
-      where("deleted_at IS NULL").
-      joins(performance_artists: :artist).
-      where(artists: { id: params[:id] }).
-      order("created_at DESC").
-      limit(100).
-      includes(:compositions, :artists, :wave => :performances)
+    @infolinks = Infolink.artist(@artist, count: 10)
   end
 
   def merge

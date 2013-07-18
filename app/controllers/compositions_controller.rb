@@ -17,14 +17,7 @@ class CompositionsController < ApplicationController
     if @composition.original_id.present? and @composition.original_id != @composition.id
       redirect_to artist_path @composition.original
     end
-    @performances = Performance.
-      joins("INNER JOIN performance_compositions ON performances.id = performance_compositions.performance_id").
-      joins("INNER JOIN compositions ON performance_compositions.composition_id = compositions.id").
-      joins("INNER JOIN youtubes ON youtubes.id = performances.youtube_id").
-      where("compositions.id = ?", params[:id]).
-      order("created_at DESC").
-      limit(100).
-      includes(:artists, :compositions, :youtube => :performances)
+    @infolinks = Infolink.composition(@composition, count: 10)
   end
 
   def merge

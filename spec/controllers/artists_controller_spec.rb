@@ -45,7 +45,7 @@ describe ArtistsController do
     specify 'assigns @artist' do
       expect(assigns(:artist)).to eq(artist)
     end
-    specify 'assigns @performances' do
+    pending 'assigns @performances' do
       performances = FactoryGirl.create_list(
         :youtube_with_perf,
         5,

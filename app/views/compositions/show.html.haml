@@ -1,19 +1,15 @@
 - title @composition.title
 
-%section#composition
-  %h1#title= @composition.title
-  %ul#options.info-container
-    %li
-      Merge into
-      = form_tag merge_composition_path, method: :put
-      = text_field_tag :target_value, '', id: 'composition_merge'
-      = hidden_field_tag :target_id
-      = submit_tag 'Merge', disabled: true
-  %ul
-    - @performances.each do |performance|
-      %li
-        = generate_infolink performance: performance, focus: 'artist'
+%main
+  %section.primary
+    %h1#title= @composition.title
+  %section.primary
+    %ul
+      - @infolinks.each do |infolink|
+        %li
+          = link_to polymorphic_path(infolink.wave) do
+            = infolink.title
 
-- content_for :debug do
-  = debug @performances if true
-  = debug @artist if 1
+  - content_for :debug do
+    = debug @performances if true
+    = debug @artist if 1

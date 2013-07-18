@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130707125012) do
+ActiveRecord::Schema.define(:version => 20130718133719) do
 
   create_table "artist_aliases", :force => true do |t|
     t.string   "name"
@@ -67,6 +67,10 @@ ActiveRecord::Schema.define(:version => 20130707125012) do
   add_index "compositions", ["original_id"], :name => "index_compositions_on_original_id"
   add_index "compositions", ["title"], :name => "index_compositions_on_title"
 
+  create_table "labels", :force => true do |t|
+    t.string "name"
+  end
+
   create_table "performance_artists", :force => true do |t|
     t.integer  "performance_id"
     t.integer  "artist_id"
@@ -89,14 +93,12 @@ ActiveRecord::Schema.define(:version => 20130707125012) do
   add_index "performance_compositions", ["performance_id", "composition_id"], :name => "by_performance_compositions", :unique => true
   add_index "performance_compositions", ["performance_id"], :name => "index_performance_compositions_on_performance_id"
 
-  create_table "performance_tags", :force => true do |t|
-    t.integer  "tag_id"
-    t.integer  "performance_id"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+  create_table "performance_labels", :force => true do |t|
+    t.integer "performance_id"
+    t.integer "label_id"
   end
 
-  add_index "performance_tags", ["tag_id", "performance_id"], :name => "index_performance_tags_on_tag_id_and_performance_id", :unique => true
+  add_index "performance_labels", ["label_id", "performance_id"], :name => "index_performance_labels_on_label_id_and_performance_id"
 
   create_table "performances", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -107,12 +109,6 @@ ActiveRecord::Schema.define(:version => 20130707125012) do
   end
 
   add_index "performances", ["wave_id", "wave_type"], :name => "index_performances_on_wave_id_and_wave_type"
-
-  create_table "tags", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
 
   create_table "user_googles", :force => true do |t|
     t.string   "access_token"

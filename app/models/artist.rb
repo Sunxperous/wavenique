@@ -5,7 +5,7 @@ class Artist < ActiveRecord::Base
 	has_many :performances, through: :performance_artists
   has_many :aliases, class_name: 'ArtistAlias' do
     def proper 
-      where(artist_id: proxy_association.owner.id).order('proper DESC').limit(1).first
+      where(artist_id: proxy_association.owner.id).order('proper DESC NULLS LAST').limit(1).first
     end
   end
   belongs_to :youtube_user, class_name: 'User', primary_key: 'youtube_channel', foreign_key: 'youtube_channel_id'
