@@ -39,9 +39,13 @@ class Form::Performance
     incoming_a = incoming[:p].values.map do |p|
       p[:a].map { |a_k, a_v| a_v[:id].blank? ? a_v[:n] : a_v[:id].to_i }
     end
+    incoming_l = incoming[:p].values.map do |p|
+      p[:l].present? ? (p[:l].map { |l_k, l_v| l_k.to_i }) : []
+    end
     current_c = wave.performances.map { |p| p.composition_ids }
     current_a = wave.performances.map { |p| p.artist_ids }
-    result = incoming_c != current_c || incoming_a != current_a
+    current_l = wave.performances.map { |p| p.label_ids }
+    result = incoming_c != current_c || incoming_a != current_a || incoming_l != current_l
     errors[:no_changes] = "There are no changes made." unless result
     result
   end
@@ -77,6 +81,11 @@ class Form::Performance
 		incoming_values[:a].each do |p_k, p_v|
 			p.artists << define_artist(p_v[:id], p_v[:n])
 		end
+    if incoming_values[:l].present?
+      incoming_values[:l].each do |l_k, l_v|
+        p.labels << Label.find(l_k)
+      end
+    end
     p
   end
 

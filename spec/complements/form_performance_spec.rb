@@ -57,10 +57,11 @@ describe Form::Performance do
         before do
           Youtube.any_instance.stub(:fill_site_info)
         end
+        let!(:cover) { FactoryGirl.create(:label, name: 'Cover') }
         let!(:youtube) do
           youtube = FactoryGirl.build(
             :youtube_with_perf,
-            perf: [{ a: 2, c: 2 }, { a: 3, c: 3 }]
+            perf: [{ a: 2, c: 2 }, { a: 3, c: 3, l: [cover] }]
           )
           # Repeated submission.
           youtube.performances[1].artists[0] = youtube.performances[0].artists[0]
@@ -90,6 +91,7 @@ describe Form::Performance do
           specify 'assigns associations correctly' do
             expect(wave.performances[1].artists[0]).to eq(wave.performances[0].artists[0])
             expect(wave.performances[1].compositions[0]).to eq(wave.performances[0].compositions[0])
+            expect(wave.performances[1].labels[0]).to eq(cover)
           end
         end
       end

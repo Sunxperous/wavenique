@@ -1,7 +1,11 @@
 class Youtube < ActiveRecord::Base
   include Wave
 	attr_accessible :video_id
-	has_many :performances, inverse_of: :wave, as: :wave, conditions: { deleted_at: nil }
+	has_many :performances,
+    inverse_of: :wave,
+    as: :wave,
+    conditions: { deleted_at: nil },
+    order: 'performances.id'
   belongs_to :channel,
     class_name: 'User',
     foreign_key: 'channel_id',
@@ -14,7 +18,7 @@ class Youtube < ActiveRecord::Base
   before_validation :fill_site_info, on: :create
 	validates_presence_of :performances, :channel_id
 	validates_associated :performances
-  scope :with_performances, includes(:performances => [:artists, :compositions])
+  scope :with_performances, includes(:performances => [:artists, :compositions, :labels])
   alias_attribute :reference_id, :video_id # Used in Wave module.
 
 	def to_param

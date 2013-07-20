@@ -5,6 +5,7 @@ FactoryGirl.define do
     ignore do
       a 1
       c 1
+      l nil
     end
 
     after(:build) do |performance, evaluator|
@@ -29,6 +30,13 @@ FactoryGirl.define do
         evaluator.c.each do |v|
           performance.compositions << v and next if v.class == Composition
           performance.compositions << FactoryGirl.build(:composition, title: v) # Else.
+        end
+      end
+
+      # Labels evaluation.
+      if evaluator.l.present?
+        evaluator.l.each do |l|
+          performance.labels << l
         end
       end
 

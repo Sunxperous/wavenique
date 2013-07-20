@@ -3,6 +3,10 @@
 %ol#performances
   - performances.each do |p|
     %li.performance
+
+      %ol.labels
+        - p.labels.each do |l|
+          %li.label= l.name
       
       %ol.compositions
         - p.compositions.each do |c|

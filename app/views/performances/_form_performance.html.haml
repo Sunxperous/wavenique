@@ -35,3 +35,11 @@
         id="p[#{ count['p'] }]_add_artist"
         data-p-id="#{ count['p'] }"
         data-count="#{ performance.artists.length }") Add Artist
+
+  %fieldset.formp-labels.formp-subfieldset
+    %div.formp-label Labels
+    %ul
+      - Label.all.each do |label|
+        = check_box_tag "p[#{ count['p'] }]l[#{ label.id }]", label.id, performance.label_ids.include?(label.id)
+        = label_tag label.name
+

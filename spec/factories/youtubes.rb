@@ -13,7 +13,8 @@ FactoryGirl.define do
             :performance,
             wave: youtube,
             a: perf[:a],
-            c: perf[:c]
+            c: perf[:c],
+            l: perf[:l]
           )
         end
       end

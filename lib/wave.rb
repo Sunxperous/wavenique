@@ -8,12 +8,17 @@ module Wave
     )
     index = Hash.new 0
     performances.each do |p|
-      p_hash = { c: { }, a: { } }
+      p_hash = { c: { }, a: { }, l: { } }
       p.artists.each do |a|
         p_hash[:a][index[:a] += 1] = { n: a.name, id: a.id }
       end
       p.compositions.each do |c|
         p_hash[:c][index[:c] += 1] = { t: c.title, id: c.id }
+      end
+      if p.labels.present?
+        p.labels.each do |l|
+          p_hash[:l][l.id] = l.id
+        end
       end
       hash[:p][index[:p] += 1] = p_hash
     end
