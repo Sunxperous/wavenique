@@ -1,4 +1,4 @@
-Vagrant::Application.routes.draw do
+Wavenique::Application.routes.draw do
   root to: 'home#index'
 
 	resources :users
