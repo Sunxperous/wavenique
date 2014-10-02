@@ -13,6 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 // require_tree .
-//= require performances
-//= require artist_aliases
+// require performances
+// require artist_aliases
 //= require jquery.ui.autocomplete
